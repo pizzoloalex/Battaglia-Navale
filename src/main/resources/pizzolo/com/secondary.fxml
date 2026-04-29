@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<HBox alignment="CENTER" style="-fx-padding: 10;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+
+    <VBox fx:id="vBoxFlottaPersonale" spacing="10" HBox.hgrow="ALWAYS">
+
+        <GridPane fx:id="gridPanePersonale" alignment="CENTER" gridLinesVisible="true" hgap="2" maxHeight="Infinity" maxWidth="Infinity" vgap="2" VBox.vgrow="ALWAYS">
+            <columnConstraints>
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="10" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="10" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="10" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="10" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="10" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="10" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="10" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="10" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="10" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="10" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints percentHeight="10" vgrow="ALWAYS" />
+                <RowConstraints percentHeight="10" vgrow="ALWAYS" />
+                <RowConstraints percentHeight="10" vgrow="ALWAYS" />
+                <RowConstraints percentHeight="10" vgrow="ALWAYS" />
+                <RowConstraints percentHeight="10" vgrow="ALWAYS" />
+                <RowConstraints percentHeight="10" vgrow="ALWAYS" />
+                <RowConstraints percentHeight="10" vgrow="ALWAYS" />
+                <RowConstraints percentHeight="10" vgrow="ALWAYS" />
+                <RowConstraints percentHeight="10" vgrow="ALWAYS" />
+                <RowConstraints percentHeight="10" vgrow="ALWAYS" />
+            </rowConstraints>
+        </GridPane>
+
+        <HBox alignment="CENTER" style="-fx-background-color: lightBlue; -fx-padding: 10;">
+            <Label text="La tua flotta">
+                <font>
+                    <Font name="System Bold Italic" size="24.0" />
+                </font>
+            </Label>
+        </HBox>
+
+    </VBox>
+
+    <VBox fx:id="vBoxFlottaNemica" spacing="10" HBox.hgrow="ALWAYS">
+
+        <GridPane fx:id="gridPaneNemica" alignment="CENTER" gridLinesVisible="true" hgap="2" maxHeight="Infinity" maxWidth="Infinity" vgap="2" VBox.vgrow="ALWAYS">
+            <columnConstraints>
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="10" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="10" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="10" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="10" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="10" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="10" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="10" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="10" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="10" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="10" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints percentHeight="10" vgrow="ALWAYS" />
+                <RowConstraints percentHeight="10" vgrow="ALWAYS" />
+                <RowConstraints percentHeight="10" vgrow="ALWAYS" />
+                <RowConstraints percentHeight="10" vgrow="ALWAYS" />
+                <RowConstraints percentHeight="10" vgrow="ALWAYS" />
+                <RowConstraints percentHeight="10" vgrow="ALWAYS" />
+                <RowConstraints percentHeight="10" vgrow="ALWAYS" />
+                <RowConstraints percentHeight="10" vgrow="ALWAYS" />
+                <RowConstraints percentHeight="10" vgrow="ALWAYS" />
+                <RowConstraints percentHeight="10" vgrow="ALWAYS" />
+            </rowConstraints>
+        </GridPane>
+
+        <HBox alignment="CENTER" style="-fx-background-color: #ff8585; -fx-padding: 10;">
+            <Label text="La flotta nemica">
+                <font>
+                    <Font name="System Bold Italic" size="24.0" />
+                </font>
+            </Label>
+        </HBox>
+
+    </VBox>
+
+</HBox>
