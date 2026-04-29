@@ -21,18 +21,28 @@ public class SecondaryController {
     @FXML
     private GridPane gridPaneNemica;
 
-    Button btn = new Button("Click");
+    Button btn;
 
     public void initialize(){
-        btn.setMaxWidth(Double.MAX_VALUE);
-        btn.setMaxHeight(Double.MAX_VALUE);
-        //gestisce lo spazio di colonna/riga
-        GridPane.setHgrow(btn, Priority.ALWAYS);
-        GridPane.setVgrow(btn, Priority.ALWAYS);
-        //dice al nodo quanto spazio occupare
-        GridPane.setFillWidth(btn, true);
-        GridPane.setFillHeight(btn, true);
-        gridPaneNemica.add(btn, 1,1);
+        /*
+
+        INSERISCE TUTTI GLI ELEMENTI PER TUTTI GLI ELEMENTI DELLA GRIGLIA
+
+        for (int i = 0; i < gridPaneNemica.getRowCount(); i++) {
+            for (int j = 0; j < gridPaneNemica.getColumnCount(); j++) {
+                btn = new Button("Click");
+                btn.setMaxWidth(Double.MAX_VALUE);
+                btn.setMaxHeight(Double.MAX_VALUE);
+                //gestisce lo spazio di colonna/riga
+                GridPane.setHgrow(btn, Priority.ALWAYS);
+                GridPane.setVgrow(btn, Priority.ALWAYS);
+                //dice al nodo quanto spazio occupare
+                GridPane.setFillWidth(btn, true);
+                GridPane.setFillHeight(btn, true);
+                gridPaneNemica.add(btn, i,j);
+            }
+        }
+         */
 
     }
 }
