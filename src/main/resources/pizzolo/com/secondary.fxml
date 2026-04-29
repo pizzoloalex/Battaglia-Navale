@@ -4,210 +4,141 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<HBox alignment="CENTER"
-      style="-fx-padding: 10;"
-      spacing="10"
-      xmlns="http://javafx.com/javafx/17.0.12"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="pizzolo.com.SecondaryController">
+<HBox alignment="CENTER" spacing="10" style="-fx-padding: 10;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pizzolo.com.controller.GameController">
 
     <!-- SINISTRA: La tua flotta -->
-    <VBox fx:id="vBoxFlottaPersonale"
-          spacing="10"
-          HBox.hgrow="ALWAYS"
-          maxHeight="Infinity"
-          maxWidth="Infinity">
+    <VBox fx:id="vBoxFlottaPersonale" maxHeight="Infinity" maxWidth="Infinity" spacing="10" HBox.hgrow="ALWAYS">
 
-        <HBox alignment="CENTER"
-              maxWidth="Infinity"
-              style="-fx-background-color: lightBlue; -fx-padding: 10;">
+        <HBox alignment="CENTER" maxWidth="Infinity" style="-fx-background-color: lightBlue; -fx-padding: 10;">
             <Label text="La tua flotta">
                 <font>
-                    <Font name="System Bold Italic" size="24.0"/>
+                    <Font name="System Bold Italic" size="24.0" />
                 </font>
             </Label>
         </HBox>
 
-        <GridPane fx:id="gridPanePersonale"
-                  alignment="CENTER"
-                  gridLinesVisible="true"
-                  hgap="2" vgap="2"
-                  maxHeight="Infinity"
-                  maxWidth="Infinity"
-                  VBox.vgrow="ALWAYS">
+        <GridPane fx:id="gridPanePersonale" alignment="CENTER" gridLinesVisible="true" hgap="2" maxHeight="Infinity" maxWidth="Infinity" vgap="2" VBox.vgrow="ALWAYS">
 
             <columnConstraints>
-                <ColumnConstraints hgrow="NEVER" percentWidth="4"/>
-                <ColumnConstraints hgrow="ALWAYS" percentWidth="9.6"/>
-                <ColumnConstraints hgrow="ALWAYS" percentWidth="9.6"/>
-                <ColumnConstraints hgrow="ALWAYS" percentWidth="9.6"/>
-                <ColumnConstraints hgrow="ALWAYS" percentWidth="9.6"/>
-                <ColumnConstraints hgrow="ALWAYS" percentWidth="9.6"/>
-                <ColumnConstraints hgrow="ALWAYS" percentWidth="9.6"/>
-                <ColumnConstraints hgrow="ALWAYS" percentWidth="9.6"/>
-                <ColumnConstraints hgrow="ALWAYS" percentWidth="9.6"/>
-                <ColumnConstraints hgrow="ALWAYS" percentWidth="9.6"/>
-                <ColumnConstraints hgrow="ALWAYS" percentWidth="9.6"/>
+                <ColumnConstraints hgrow="NEVER" percentWidth="4" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="9.6" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="9.6" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="9.6" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="9.6" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="9.6" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="9.6" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="9.6" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="9.6" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="9.6" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="9.6" />
             </columnConstraints>
 
             <rowConstraints>
-                <RowConstraints vgrow="NEVER" percentHeight="4"/>
-                <RowConstraints vgrow="ALWAYS" percentHeight="9.6"/>
-                <RowConstraints vgrow="ALWAYS" percentHeight="9.6"/>
-                <RowConstraints vgrow="ALWAYS" percentHeight="9.6"/>
-                <RowConstraints vgrow="ALWAYS" percentHeight="9.6"/>
-                <RowConstraints vgrow="ALWAYS" percentHeight="9.6"/>
-                <RowConstraints vgrow="ALWAYS" percentHeight="9.6"/>
-                <RowConstraints vgrow="ALWAYS" percentHeight="9.6"/>
-                <RowConstraints vgrow="ALWAYS" percentHeight="9.6"/>
-                <RowConstraints vgrow="ALWAYS" percentHeight="9.6"/>
-                <RowConstraints vgrow="ALWAYS" percentHeight="9.6"/>
+                <RowConstraints percentHeight="4" vgrow="NEVER" />
+                <RowConstraints percentHeight="9.6" vgrow="ALWAYS" />
+                <RowConstraints percentHeight="9.6" vgrow="ALWAYS" />
+                <RowConstraints percentHeight="9.6" vgrow="ALWAYS" />
+                <RowConstraints percentHeight="9.6" vgrow="ALWAYS" />
+                <RowConstraints percentHeight="9.6" vgrow="ALWAYS" />
+                <RowConstraints percentHeight="9.6" vgrow="ALWAYS" />
+                <RowConstraints percentHeight="9.6" vgrow="ALWAYS" />
+                <RowConstraints percentHeight="9.6" vgrow="ALWAYS" />
+                <RowConstraints percentHeight="9.6" vgrow="ALWAYS" />
+                <RowConstraints percentHeight="9.6" vgrow="ALWAYS" />
             </rowConstraints>
 
             <!-- Numeri in cima (riga 0) -->
-            <Label text="1" GridPane.columnIndex="1" GridPane.rowIndex="0" maxWidth="Infinity" maxHeight="Infinity"
-                   alignment="CENTER" style="-fx-font-weight: bold; -fx-text-fill: black;"/>
-            <Label text="2" GridPane.columnIndex="2" GridPane.rowIndex="0" maxWidth="Infinity" maxHeight="Infinity"
-                   alignment="CENTER" style="-fx-font-weight: bold; -fx-text-fill: black;"/>
-            <Label text="3" GridPane.columnIndex="3" GridPane.rowIndex="0" maxWidth="Infinity" maxHeight="Infinity"
-                   alignment="CENTER" style="-fx-font-weight: bold; -fx-text-fill: black;"/>
-            <Label text="4" GridPane.columnIndex="4" GridPane.rowIndex="0" maxWidth="Infinity" maxHeight="Infinity"
-                   alignment="CENTER" style="-fx-font-weight: bold; -fx-text-fill: black;"/>
-            <Label text="5" GridPane.columnIndex="5" GridPane.rowIndex="0" maxWidth="Infinity" maxHeight="Infinity"
-                   alignment="CENTER" style="-fx-font-weight: bold; -fx-text-fill: black;"/>
-            <Label text="6" GridPane.columnIndex="6" GridPane.rowIndex="0" maxWidth="Infinity" maxHeight="Infinity"
-                   alignment="CENTER" style="-fx-font-weight: bold; -fx-text-fill: black;"/>
-            <Label text="7" GridPane.columnIndex="7" GridPane.rowIndex="0" maxWidth="Infinity" maxHeight="Infinity"
-                   alignment="CENTER" style="-fx-font-weight: bold; -fx-text-fill: black;"/>
-            <Label text="8" GridPane.columnIndex="8" GridPane.rowIndex="0" maxWidth="Infinity" maxHeight="Infinity"
-                   alignment="CENTER" style="-fx-font-weight: bold; -fx-text-fill: black;"/>
-            <Label text="9" GridPane.columnIndex="9" GridPane.rowIndex="0" maxWidth="Infinity" maxHeight="Infinity"
-                   alignment="CENTER" style="-fx-font-weight: bold; -fx-text-fill: black;"/>
-            <Label text="10" GridPane.columnIndex="10" GridPane.rowIndex="0" maxWidth="Infinity" maxHeight="Infinity"
-                   alignment="CENTER" style="-fx-font-weight: bold; -fx-text-fill: black;"/>
+            <Label alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" style="-fx-font-weight: bold; -fx-text-fill: black;" text="1" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            <Label alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" style="-fx-font-weight: bold; -fx-text-fill: black;" text="2" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+            <Label alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" style="-fx-font-weight: bold; -fx-text-fill: black;" text="3" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+            <Label alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" style="-fx-font-weight: bold; -fx-text-fill: black;" text="4" GridPane.columnIndex="4" GridPane.rowIndex="0" />
+            <Label alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" style="-fx-font-weight: bold; -fx-text-fill: black;" text="5" GridPane.columnIndex="5" GridPane.rowIndex="0" />
+            <Label alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" style="-fx-font-weight: bold; -fx-text-fill: black;" text="6" GridPane.columnIndex="6" GridPane.rowIndex="0" />
+            <Label alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" style="-fx-font-weight: bold; -fx-text-fill: black;" text="7" GridPane.columnIndex="7" GridPane.rowIndex="0" />
+            <Label alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" style="-fx-font-weight: bold; -fx-text-fill: black;" text="8" GridPane.columnIndex="8" GridPane.rowIndex="0" />
+            <Label alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" style="-fx-font-weight: bold; -fx-text-fill: black;" text="9" GridPane.columnIndex="9" GridPane.rowIndex="0" />
+            <Label alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" style="-fx-font-weight: bold; -fx-text-fill: black;" text="10" GridPane.columnIndex="10" GridPane.rowIndex="0" />
 
             <!-- Lettere a sinistra (colonna 0) -->
-            <Label text="A" GridPane.columnIndex="0" GridPane.rowIndex="1" maxWidth="Infinity" maxHeight="Infinity"
-                   alignment="CENTER" style="-fx-font-weight: bold; -fx-text-fill: black;"/>
-            <Label text="B" GridPane.columnIndex="0" GridPane.rowIndex="2" maxWidth="Infinity" maxHeight="Infinity"
-                   alignment="CENTER" style="-fx-font-weight: bold; -fx-text-fill: black;"/>
-            <Label text="C" GridPane.columnIndex="0" GridPane.rowIndex="3" maxWidth="Infinity" maxHeight="Infinity"
-                   alignment="CENTER" style="-fx-font-weight: bold; -fx-text-fill: black;"/>
-            <Label text="D" GridPane.columnIndex="0" GridPane.rowIndex="4" maxWidth="Infinity" maxHeight="Infinity"
-                   alignment="CENTER" style="-fx-font-weight: bold; -fx-text-fill: black;"/>
-            <Label text="E" GridPane.columnIndex="0" GridPane.rowIndex="5" maxWidth="Infinity" maxHeight="Infinity"
-                   alignment="CENTER" style="-fx-font-weight: bold; -fx-text-fill: black;"/>
-            <Label text="F" GridPane.columnIndex="0" GridPane.rowIndex="6" maxWidth="Infinity" maxHeight="Infinity"
-                   alignment="CENTER" style="-fx-font-weight: bold; -fx-text-fill: black;"/>
-            <Label text="G" GridPane.columnIndex="0" GridPane.rowIndex="7" maxWidth="Infinity" maxHeight="Infinity"
-                   alignment="CENTER" style="-fx-font-weight: bold; -fx-text-fill: black;"/>
-            <Label text="H" GridPane.columnIndex="0" GridPane.rowIndex="8" maxWidth="Infinity" maxHeight="Infinity"
-                   alignment="CENTER" style="-fx-font-weight: bold; -fx-text-fill: black;"/>
-            <Label text="I" GridPane.columnIndex="0" GridPane.rowIndex="9" maxWidth="Infinity" maxHeight="Infinity"
-                   alignment="CENTER" style="-fx-font-weight: bold; -fx-text-fill: black;"/>
-            <Label text="J" GridPane.columnIndex="0" GridPane.rowIndex="10" maxWidth="Infinity" maxHeight="Infinity"
-                   alignment="CENTER" style="-fx-font-weight: bold; -fx-text-fill: black;"/>
+            <Label alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" style="-fx-font-weight: bold; -fx-text-fill: black;" text="A" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <Label alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" style="-fx-font-weight: bold; -fx-text-fill: black;" text="B" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <Label alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" style="-fx-font-weight: bold; -fx-text-fill: black;" text="C" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+            <Label alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" style="-fx-font-weight: bold; -fx-text-fill: black;" text="D" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+            <Label alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" style="-fx-font-weight: bold; -fx-text-fill: black;" text="E" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+            <Label alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" style="-fx-font-weight: bold; -fx-text-fill: black;" text="F" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+            <Label alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" style="-fx-font-weight: bold; -fx-text-fill: black;" text="G" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+            <Label alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" style="-fx-font-weight: bold; -fx-text-fill: black;" text="H" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+            <Label alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" style="-fx-font-weight: bold; -fx-text-fill: black;" text="I" GridPane.columnIndex="0" GridPane.rowIndex="9" />
+            <Label alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" style="-fx-font-weight: bold; -fx-text-fill: black;" text="J" GridPane.columnIndex="0" GridPane.rowIndex="10" />
 
         </GridPane>
 
     </VBox>
 
     <!-- DESTRA: La flotta nemica -->
-    <VBox fx:id="vBoxFlottaNemica"
-          spacing="10"
-          HBox.hgrow="ALWAYS"
-          maxHeight="Infinity"
-          maxWidth="Infinity">
+    <VBox fx:id="vBoxFlottaNemica" maxHeight="Infinity" maxWidth="Infinity" spacing="10" HBox.hgrow="ALWAYS">
 
-        <HBox alignment="CENTER"
-              maxWidth="Infinity"
-              style="-fx-background-color: #ff8585; -fx-padding: 10;">
+        <HBox alignment="CENTER" maxWidth="Infinity" style="-fx-background-color: #ff8585; -fx-padding: 10;">
             <Label text="La flotta nemica">
                 <font>
-                    <Font name="System Bold Italic" size="24.0"/>
+                    <Font name="System Bold Italic" size="24.0" />
                 </font>
             </Label>
         </HBox>
 
-        <GridPane fx:id="gridPaneNemica"
-                  alignment="CENTER"
-                  gridLinesVisible="true"
-                  hgap="2" vgap="2"
-                  maxHeight="Infinity"
-                  maxWidth="Infinity"
-                  VBox.vgrow="ALWAYS">
+        <GridPane fx:id="gridPaneNemica" alignment="CENTER" gridLinesVisible="true" hgap="2" maxHeight="Infinity" maxWidth="Infinity" vgap="2" VBox.vgrow="ALWAYS">
 
             <columnConstraints>
-                <ColumnConstraints hgrow="NEVER" percentWidth="4"/>
-                <ColumnConstraints hgrow="ALWAYS" percentWidth="9.6"/>
-                <ColumnConstraints hgrow="ALWAYS" percentWidth="9.6"/>
-                <ColumnConstraints hgrow="ALWAYS" percentWidth="9.6"/>
-                <ColumnConstraints hgrow="ALWAYS" percentWidth="9.6"/>
-                <ColumnConstraints hgrow="ALWAYS" percentWidth="9.6"/>
-                <ColumnConstraints hgrow="ALWAYS" percentWidth="9.6"/>
-                <ColumnConstraints hgrow="ALWAYS" percentWidth="9.6"/>
-                <ColumnConstraints hgrow="ALWAYS" percentWidth="9.6"/>
-                <ColumnConstraints hgrow="ALWAYS" percentWidth="9.6"/>
-                <ColumnConstraints hgrow="ALWAYS" percentWidth="9.6"/>
+                <ColumnConstraints hgrow="NEVER" percentWidth="4" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="9.6" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="9.6" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="9.6" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="9.6" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="9.6" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="9.6" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="9.6" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="9.6" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="9.6" />
+                <ColumnConstraints hgrow="ALWAYS" percentWidth="9.6" />
             </columnConstraints>
 
             <rowConstraints>
-                <RowConstraints vgrow="NEVER" percentHeight="4"/>
-                <RowConstraints vgrow="ALWAYS" percentHeight="9.6"/>
-                <RowConstraints vgrow="ALWAYS" percentHeight="9.6"/>
-                <RowConstraints vgrow="ALWAYS" percentHeight="9.6"/>
-                <RowConstraints vgrow="ALWAYS" percentHeight="9.6"/>
-                <RowConstraints vgrow="ALWAYS" percentHeight="9.6"/>
-                <RowConstraints vgrow="ALWAYS" percentHeight="9.6"/>
-                <RowConstraints vgrow="ALWAYS" percentHeight="9.6"/>
-                <RowConstraints vgrow="ALWAYS" percentHeight="9.6"/>
-                <RowConstraints vgrow="ALWAYS" percentHeight="9.6"/>
-                <RowConstraints vgrow="ALWAYS" percentHeight="9.6"/>
+                <RowConstraints percentHeight="4" vgrow="NEVER" />
+                <RowConstraints percentHeight="9.6" vgrow="ALWAYS" />
+                <RowConstraints percentHeight="9.6" vgrow="ALWAYS" />
+                <RowConstraints percentHeight="9.6" vgrow="ALWAYS" />
+                <RowConstraints percentHeight="9.6" vgrow="ALWAYS" />
+                <RowConstraints percentHeight="9.6" vgrow="ALWAYS" />
+                <RowConstraints percentHeight="9.6" vgrow="ALWAYS" />
+                <RowConstraints percentHeight="9.6" vgrow="ALWAYS" />
+                <RowConstraints percentHeight="9.6" vgrow="ALWAYS" />
+                <RowConstraints percentHeight="9.6" vgrow="ALWAYS" />
+                <RowConstraints percentHeight="9.6" vgrow="ALWAYS" />
             </rowConstraints>
 
             <!-- Numeri in cima (riga 0) -->
-            <Label text="1" GridPane.columnIndex="1" GridPane.rowIndex="0" maxWidth="Infinity" maxHeight="Infinity"
-                   alignment="CENTER" style="-fx-font-weight: bold; -fx-text-fill: black;"/>
-            <Label text="2" GridPane.columnIndex="2" GridPane.rowIndex="0" maxWidth="Infinity" maxHeight="Infinity"
-                   alignment="CENTER" style="-fx-font-weight: bold; -fx-text-fill: black;"/>
-            <Label text="3" GridPane.columnIndex="3" GridPane.rowIndex="0" maxWidth="Infinity" maxHeight="Infinity"
-                   alignment="CENTER" style="-fx-font-weight: bold; -fx-text-fill: black;"/>
-            <Label text="4" GridPane.columnIndex="4" GridPane.rowIndex="0" maxWidth="Infinity" maxHeight="Infinity"
-                   alignment="CENTER" style="-fx-font-weight: bold; -fx-text-fill: black;"/>
-            <Label text="5" GridPane.columnIndex="5" GridPane.rowIndex="0" maxWidth="Infinity" maxHeight="Infinity"
-                   alignment="CENTER" style="-fx-font-weight: bold; -fx-text-fill: black;"/>
-            <Label text="6" GridPane.columnIndex="6" GridPane.rowIndex="0" maxWidth="Infinity" maxHeight="Infinity"
-                   alignment="CENTER" style="-fx-font-weight: bold; -fx-text-fill: black;"/>
-            <Label text="7" GridPane.columnIndex="7" GridPane.rowIndex="0" maxWidth="Infinity" maxHeight="Infinity"
-                   alignment="CENTER" style="-fx-font-weight: bold; -fx-text-fill: black;"/>
-            <Label text="8" GridPane.columnIndex="8" GridPane.rowIndex="0" maxWidth="Infinity" maxHeight="Infinity"
-                   alignment="CENTER" style="-fx-font-weight: bold; -fx-text-fill: black;"/>
-            <Label text="9" GridPane.columnIndex="9" GridPane.rowIndex="0" maxWidth="Infinity" maxHeight="Infinity"
-                   alignment="CENTER" style="-fx-font-weight: bold; -fx-text-fill: black;"/>
-            <Label text="10" GridPane.columnIndex="10" GridPane.rowIndex="0" maxWidth="Infinity" maxHeight="Infinity"
-                   alignment="CENTER" style="-fx-font-weight: bold; -fx-text-fill: black;"/>
+            <Label alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" style="-fx-font-weight: bold; -fx-text-fill: black;" text="1" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            <Label alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" style="-fx-font-weight: bold; -fx-text-fill: black;" text="2" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+            <Label alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" style="-fx-font-weight: bold; -fx-text-fill: black;" text="3" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+            <Label alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" style="-fx-font-weight: bold; -fx-text-fill: black;" text="4" GridPane.columnIndex="4" GridPane.rowIndex="0" />
+            <Label alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" style="-fx-font-weight: bold; -fx-text-fill: black;" text="5" GridPane.columnIndex="5" GridPane.rowIndex="0" />
+            <Label alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" style="-fx-font-weight: bold; -fx-text-fill: black;" text="6" GridPane.columnIndex="6" GridPane.rowIndex="0" />
+            <Label alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" style="-fx-font-weight: bold; -fx-text-fill: black;" text="7" GridPane.columnIndex="7" GridPane.rowIndex="0" />
+            <Label alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" style="-fx-font-weight: bold; -fx-text-fill: black;" text="8" GridPane.columnIndex="8" GridPane.rowIndex="0" />
+            <Label alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" style="-fx-font-weight: bold; -fx-text-fill: black;" text="9" GridPane.columnIndex="9" GridPane.rowIndex="0" />
+            <Label alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" style="-fx-font-weight: bold; -fx-text-fill: black;" text="10" GridPane.columnIndex="10" GridPane.rowIndex="0" />
 
             <!-- Lettere a sinistra (colonna 0) -->
-            <Label text="A" GridPane.columnIndex="0" GridPane.rowIndex="1" maxWidth="Infinity" maxHeight="Infinity"
-                   alignment="CENTER" style="-fx-font-weight: bold; -fx-text-fill: black;"/>
-            <Label text="B" GridPane.columnIndex="0" GridPane.rowIndex="2" maxWidth="Infinity" maxHeight="Infinity"
-                   alignment="CENTER" style="-fx-font-weight: bold; -fx-text-fill: black;"/>
-            <Label text="C" GridPane.columnIndex="0" GridPane.rowIndex="3" maxWidth="Infinity" maxHeight="Infinity"
-                   alignment="CENTER" style="-fx-font-weight: bold; -fx-text-fill: black;"/>
-            <Label text="D" GridPane.columnIndex="0" GridPane.rowIndex="4" maxWidth="Infinity" maxHeight="Infinity"
-                   alignment="CENTER" style="-fx-font-weight: bold; -fx-text-fill: black;"/>
-            <Label text="E" GridPane.columnIndex="0" GridPane.rowIndex="5" maxWidth="Infinity" maxHeight="Infinity"
-                   alignment="CENTER" style="-fx-font-weight: bold; -fx-text-fill: black;"/>
-            <Label text="F" GridPane.columnIndex="0" GridPane.rowIndex="6" maxWidth="Infinity" maxHeight="Infinity"
-                   alignment="CENTER" style="-fx-font-weight: bold; -fx-text-fill: black;"/>
-            <Label text="G" GridPane.columnIndex="0" GridPane.rowIndex="7" maxWidth="Infinity" maxHeight="Infinity"
-                   alignment="CENTER" style="-fx-font-weight: bold; -fx-text-fill: black;"/>
-            <Label text="H" GridPane.columnIndex="0" GridPane.rowIndex="8" maxWidth="Infinity" maxHeight="Infinity"
-                   alignment="CENTER" style="-fx-font-weight: bold; -fx-text-fill: black;"/>
-            <Label text="I" GridPane.columnIndex="0" GridPane.rowIndex="9" maxWidth="Infinity" maxHeight="Infinity"
-                   alignment="CENTER" style="-fx-font-weight: bold; -fx-text-fill: black;"/>
-            <Label text="J" GridPane.columnIndex="0" GridPane.rowIndex="10" maxWidth="Infinity" maxHeight="Infinity"
-                   alignment="CENTER" style="-fx-font-weight: bold; -fx-text-fill: black;"/>
+            <Label alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" style="-fx-font-weight: bold; -fx-text-fill: black;" text="A" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <Label alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" style="-fx-font-weight: bold; -fx-text-fill: black;" text="B" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <Label alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" style="-fx-font-weight: bold; -fx-text-fill: black;" text="C" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+            <Label alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" style="-fx-font-weight: bold; -fx-text-fill: black;" text="D" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+            <Label alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" style="-fx-font-weight: bold; -fx-text-fill: black;" text="E" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+            <Label alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" style="-fx-font-weight: bold; -fx-text-fill: black;" text="F" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+            <Label alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" style="-fx-font-weight: bold; -fx-text-fill: black;" text="G" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+            <Label alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" style="-fx-font-weight: bold; -fx-text-fill: black;" text="H" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+            <Label alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" style="-fx-font-weight: bold; -fx-text-fill: black;" text="I" GridPane.columnIndex="0" GridPane.rowIndex="9" />
+            <Label alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" style="-fx-font-weight: bold; -fx-text-fill: black;" text="J" GridPane.columnIndex="0" GridPane.rowIndex="10" />
 
         </GridPane>
 

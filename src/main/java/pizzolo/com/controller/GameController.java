@@ -1,21 +1,15 @@
-package pizzolo.com;
-
-import java.io.IOException;
+package pizzolo.com.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import org.w3c.dom.css.Rect;
-import pizzolo.com.model.StatoCella;
 
 /**
  * classe del controller che gestisce la grafica del gioco
  */
-public class SecondaryController {
+public class GameController {
     @FXML
     private VBox vBoxFlottaPersonale;
     @FXML
@@ -27,7 +21,6 @@ public class SecondaryController {
 
     @FXML
     public void initialize() {
-
         for (int i = 1; i < gridPaneNemica.getRowCount(); i++) {
             for (int j = 1; j < gridPaneNemica.getColumnCount(); j++) {
                 Button btn = new Button();
