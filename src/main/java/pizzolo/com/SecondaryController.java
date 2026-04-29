@@ -7,6 +7,10 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import org.w3c.dom.css.Rect;
+import pizzolo.com.model.StatoCella;
 
 /**
  * classe del controller che gestisce la grafica del gioco
@@ -21,16 +25,13 @@ public class SecondaryController {
     @FXML
     private GridPane gridPaneNemica;
 
-    Button btn;
+    @FXML
+    public void initialize() {
 
-    public void initialize(){
-        /*
-
-        INSERISCE TUTTI GLI ELEMENTI PER TUTTI GLI ELEMENTI DELLA GRIGLIA
-
-        for (int i = 0; i < gridPaneNemica.getRowCount(); i++) {
-            for (int j = 0; j < gridPaneNemica.getColumnCount(); j++) {
-                btn = new Button("Click");
+        for (int i = 1; i < gridPaneNemica.getRowCount(); i++) {
+            for (int j = 1; j < gridPaneNemica.getColumnCount(); j++) {
+                Button btn = new Button();
+                btn.setStyle("-fx-background-color: white"); //inizialmente nessuna barca
                 btn.setMaxWidth(Double.MAX_VALUE);
                 btn.setMaxHeight(Double.MAX_VALUE);
                 //gestisce lo spazio di colonna/riga
@@ -39,10 +40,14 @@ public class SecondaryController {
                 //dice al nodo quanto spazio occupare
                 GridPane.setFillWidth(btn, true);
                 GridPane.setFillHeight(btn, true);
-                gridPaneNemica.add(btn, i,j);
+                gridPaneNemica.add(btn, i, j);
+                btn.setOnAction(actionEvent -> btn.setText(colpito()));
             }
         }
-         */
-
     }
+
+    private String colpito(){
+        return "X";
+    }
+
 }
