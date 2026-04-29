@@ -4,6 +4,9 @@ import java.io.IOException;
 import javafx.fxml.FXML;
 import pizzolo.com.App;
 
+/**
+ * controller che gestisce il menu del applicazione
+ */
 public class MenuController {
 
     @FXML
