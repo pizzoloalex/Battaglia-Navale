@@ -2,6 +2,7 @@ package pizzolo.com.model;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Timer;
 
 /**
@@ -18,21 +19,24 @@ public class Partita {
         this.turno = true;//inizia il giocatore
         giocatore = new Giocatore();
         ia = new Giocatore();
+        griglia = new Griglia();
     }
 
-    /*
-
-    METODO DA USARE NEL MENU PRIMA DI GIOCARE
-
-    public void gestioneGiocatore() throws PartitaException{
-        giocatori.add(new Giocatore("Alex", true, naviPersonali));
-        giocatori.add(new Giocatore("AI", false, naviNemiche));
-        if (giocatori.size() > 2) {
-            throw new PartitaException("Massimo due giocatori");
-        }
-
+    public Griglia getGriglia() {
+        return griglia;
     }
-    */
 
+    //METODO DI DEBUG SENZA NAVI
+    public void mostraGrigliaIniziale() {
+        System.out.println("GRIGLIA SENZA NAVI");
+        System.out.println(griglia.toString());
+    }
+
+    //METODO DI DEBUG CON NAVI
+    public void mostraGrigliaConNavi() {
+        griglia.inizia();
+        System.out.println("GRIGLIA CON NAVI");
+        System.out.println(griglia.toString());
+    }
 
 }

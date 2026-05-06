@@ -10,7 +10,9 @@ public class Giocatore {
     private boolean turno;  //true = turno giocatore--- false = turno AI
     private ArrayList<Nave> navi;
 
-    public Giocatore() {}
+    public Giocatore() {
+        navi = new ArrayList<>();
+    }
 
     /**
      *

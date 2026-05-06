@@ -16,19 +16,10 @@ public class Nave {
         this.lunghezza = tipoNave.getLunghezza();
         this.rigaNave = rigaNave;
         this.colonnaNave = colonnaNave;
-        this.isVerticale  = isVerticale;
-        if (this.isVerticale) {
-            for (int i = 0; i <= tipoNave.getLunghezza(); i++){
-                this.rigaNave++;
-            }
-        }else{
-            for (int i = 0; i <= tipoNave.getLunghezza() ; i++) {
-                this.colonnaNave++;
-            }
-        }
+        this.isVerticale = isVerticale;
     }
 
-    public void controlloBordi(){
+    public void controlloBordi() {
         //TODO
         //metodo che controlla che se la posizione della nave e [1;1] e va verso alto verticale la sua lunghezza non puo essere piu lunga di dimensione -1
     }
