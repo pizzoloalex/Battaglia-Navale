@@ -21,8 +21,8 @@ public class GameController {
 
     @FXML
     public void initialize() {
-        for (int i = 1; i < gridPaneNemica.getRowCount(); i++) {
-            for (int j = 1; j < gridPaneNemica.getColumnCount(); j++) {
+        for (int i = 1; i < gridPanePersonale.getRowCount(); i++) {
+            for (int j = 1; j < gridPanePersonale.getColumnCount(); j++) {
                 Button btn = new Button();
                 btn.setStyle("-fx-background-color: white"); //inizialmente nessuna barca
                 btn.setMaxWidth(Double.MAX_VALUE);
@@ -33,14 +33,10 @@ public class GameController {
                 //dice al nodo quanto spazio occupare
                 GridPane.setFillWidth(btn, true);
                 GridPane.setFillHeight(btn, true);
-                gridPaneNemica.add(btn, i, j);
-                btn.setOnAction(actionEvent -> btn.setText(colpito()));
+                gridPanePersonale.add(btn, i, j);
+                btn.setOnAction(actionEvent -> System.out.println("colpito"));
             }
         }
-    }
-
-    private String colpito(){
-        return "X";
     }
 
 }

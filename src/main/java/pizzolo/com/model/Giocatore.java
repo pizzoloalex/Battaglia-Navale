@@ -7,29 +7,27 @@ import java.util.ArrayList;
  */
 public class Giocatore {
     private String nome;
-    private boolean turnoSuo;  //true = turno giocatore  --- false = turno AI
-    private ArrayList<Nave> naviGiocatore;
+    private boolean turno;  //true = turno giocatore  --- false = turno AI
+    private ArrayList<Nave> navi;
 
-    public Giocatore() {
-    }
+    public Giocatore() {}
 
     /**
      *
      * @param nome del giocatore
-     * @param navi il giocatore conosce le proprie navi
      */
-    public Giocatore(String nome, ArrayList<Nave> navi) {
+    public Giocatore(String nome) {
         this.nome = nome;
-        turnoSuo = true; //inizia il giocatore
-        this.naviGiocatore = navi;
+        turno = true; //inizia il giocatore
+        navi = new ArrayList<>();
     }
 
-    public ArrayList<Nave> getNaviGiocatore() {
-        return naviGiocatore;
+    public ArrayList<Nave> getNavi() {
+        return navi;
     }
 
-    public void setNaviGiocatore(ArrayList<Nave> naviGiocatore) {
-        this.naviGiocatore = naviGiocatore;
+    public void setNavi(ArrayList<Nave> navi) {
+        this.navi = navi;
     }
 
     public String getNome() {
@@ -40,11 +38,11 @@ public class Giocatore {
         this.nome = nome;
     }
 
-    public boolean isTurnoSuo() {
-        return turnoSuo;
+    public boolean isTurno() {
+        return turno;
     }
 
-    public void setTurnoSuo(boolean turnoSuo) {
-        this.turnoSuo = turnoSuo;
+    public void setTurno(boolean turno) {
+        this.turno = turno;
     }
 }
