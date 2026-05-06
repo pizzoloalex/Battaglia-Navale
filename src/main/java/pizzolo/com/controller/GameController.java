@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 /**
@@ -23,20 +24,25 @@ public class GameController {
     public void initialize() {
         for (int i = 1; i < gridPanePersonale.getRowCount(); i++) {
             for (int j = 1; j < gridPanePersonale.getColumnCount(); j++) {
-                Button btn = new Button();
-                btn.setStyle("-fx-background-color: white"); //inizialmente nessuna barca
-                btn.setMaxWidth(Double.MAX_VALUE);
-                btn.setMaxHeight(Double.MAX_VALUE);
+                StackPane stk = new StackPane();
+                stk.setStyle("-fx-background-color: transparent"); //inizialmente nessuna barca
+                stk.setMaxWidth(Double.MAX_VALUE);
+                stk.setMaxHeight(Double.MAX_VALUE);
                 //gestisce lo spazio di colonna/riga
-                GridPane.setHgrow(btn, Priority.ALWAYS);
-                GridPane.setVgrow(btn, Priority.ALWAYS);
+                GridPane.setHgrow(stk, Priority.ALWAYS);
+                GridPane.setVgrow(stk, Priority.ALWAYS);
                 //dice al nodo quanto spazio occupare
-                GridPane.setFillWidth(btn, true);
-                GridPane.setFillHeight(btn, true);
-                gridPanePersonale.add(btn, i, j);
-                btn.setOnAction(actionEvent -> System.out.println("colpito"));
+                GridPane.setFillWidth(stk, true);
+                GridPane.setFillHeight(stk, true);
+                gridPanePersonale.add(stk, i, j);
+                //OTTENIMENTO DELLA CELLA CLICCATA
+                int row = j;
+                int col = i;
+                stk.setOnMouseClicked(mouseEvent -> {
+                    System.out.println("click su col: " + col + "   riga: " + row);
+
+                });
             }
         }
     }
-
 }

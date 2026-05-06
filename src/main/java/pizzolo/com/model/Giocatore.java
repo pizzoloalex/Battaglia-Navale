@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 public class Giocatore {
     private String nome;
-    private boolean turno;  //true = turno giocatore  --- false = turno AI
+    private boolean turno;  //true = turno giocatore--- false = turno AI
     private ArrayList<Nave> navi;
 
     public Giocatore() {}

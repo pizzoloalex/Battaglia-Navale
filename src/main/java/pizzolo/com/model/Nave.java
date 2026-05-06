@@ -10,13 +10,27 @@ public class Nave {
     private int contaColpi;
     private int rigaNave;
     private int colonnaNave;
+    private boolean isVerticale;
 
-    public Nave(boolean affondato, TipoNave tipoNave, int rigaNave, int colonnaNave) {
+    public Nave(TipoNave tipoNave, int rigaNave, int colonnaNave, boolean isVerticale) {
         this.lunghezza = tipoNave.getLunghezza();
-        this.affondato = affondato;
-        colpito = false;
         this.rigaNave = rigaNave;
         this.colonnaNave = colonnaNave;
+        this.isVerticale  = isVerticale;
+        if (this.isVerticale) {
+            for (int i = 0; i <= tipoNave.getLunghezza(); i++){
+                this.rigaNave++;
+            }
+        }else{
+            for (int i = 0; i <= tipoNave.getLunghezza() ; i++) {
+                this.colonnaNave++;
+            }
+        }
+    }
+
+    public void controlloBordi(){
+        //TODO
+        //metodo che controlla che se la posizione della nave e [1;1] e va verso alto verticale la sua lunghezza non puo essere piu lunga di dimensione -1
     }
 
     public boolean colpito(int riga, int colonna, Button btn) {
@@ -26,19 +40,34 @@ public class Nave {
         return colpito = false;
     }
 
-    private int contaColpiAssegno(){
+    private int contaColpiAssegno() {
         return contaColpi++;
     }
 
-    public boolean affondato(){
-        if (colpito){
-            if (contaColpiAssegno() >= lunghezza){
+    public boolean affondato() {
+        if (colpito) {
+            if (contaColpiAssegno() >= lunghezza) {
                 return affondato = true;
             }
         }
         return affondato = false;
     }
 
+    public int getContaColpi() {
+        return contaColpi;
+    }
+
+    public int getRigaNave() {
+        return rigaNave;
+    }
+
+    public int getColonnaNave() {
+        return colonnaNave;
+    }
+
+    public boolean isVerticale() {
+        return isVerticale;
+    }
 
     public int getLunghezza() {
         return lunghezza;

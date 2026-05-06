@@ -14,6 +14,12 @@ public class Partita {
     private Griglia griglia;
     private boolean turno; //true = turno del giocatore ---- false = turno ai
 
+    public Partita() {
+        this.turno = true;//inizia il giocatore
+        giocatore = new Giocatore();
+        ia = new Giocatore();
+    }
+
     /*
 
     METODO DA USARE NEL MENU PRIMA DI GIOCARE
