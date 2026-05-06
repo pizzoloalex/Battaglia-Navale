@@ -11,10 +11,12 @@ public class Nave {
     private int rigaNave;
     private int colonnaNave;
 
-    public Nave(boolean affondato, TipoNave tipoNave) {
+    public Nave(boolean affondato, TipoNave tipoNave, int rigaNave, int colonnaNave) {
         this.lunghezza = tipoNave.getLunghezza();
         this.affondato = affondato;
         colpito = false;
+        this.rigaNave = rigaNave;
+        this.colonnaNave = colonnaNave;
     }
 
     public boolean colpito(int riga, int colonna, Button btn) {
