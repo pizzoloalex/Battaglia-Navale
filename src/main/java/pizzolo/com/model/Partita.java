@@ -1,10 +1,6 @@
 package pizzolo.com.model;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Timer;
-
 /**
  * classe che gestisce tutta la partita
  */
@@ -34,9 +30,15 @@ public class Partita {
 
     //METODO DI DEBUG CON NAVI
     public void mostraGrigliaConNavi() {
-        griglia.inizia();
+        griglia.posizionaNaviGiocatore();
         System.out.println("GRIGLIA CON NAVI");
         System.out.println(griglia.toString());
+    }
+
+    //METODO DEBUG NAVI AI
+    public void mostraGrigliaAi(){
+        System.out.println("GESTIONE GRIGLIA AI");
+        griglia.posizionaNaviAi();
     }
 
 }

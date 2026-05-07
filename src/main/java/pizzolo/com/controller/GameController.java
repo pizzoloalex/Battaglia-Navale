@@ -27,15 +27,19 @@ public class GameController {
     @FXML
     public void initialize() {
         partita = new Partita();
-        partita.mostraGrigliaIniziale();
-        partita.mostraGrigliaConNavi();
+        inizializzaGrigliaGiocatore();
+        mostraNaviGiocatore();
+        inizializzaGrigliaAi();
+    }
+
+    private void mostraNaviGiocatore() {
         for (int i = 0; i < DIMENSIONE; i++) {
             for (int j = 0; j < DIMENSIONE; j++) {
                 StackPane stk = new StackPane();
                 if (partita.getGriglia().getStatoCella()[i][j] == StatoCella.NAVE){
-                    stk.setStyle("-fx-background-color: grey");
+                    stk.setStyle("-fx-background-color: grey"); //colore della cella se ce la barca
                 }else {
-                    stk.setStyle("-fx-background-color: transparent"); //inizialmente nessuna barca
+                    stk.setStyle("-fx-background-color: transparent"); // nessuna barca
                 }
                 stk.setMaxWidth(Double.MAX_VALUE);
                 stk.setMaxHeight(Double.MAX_VALUE);
@@ -55,5 +59,14 @@ public class GameController {
                 });
             }
         }
+    }
+
+    private void inizializzaGrigliaGiocatore() {
+        partita.mostraGrigliaIniziale();
+        partita.mostraGrigliaConNavi();
+    }
+
+    private void inizializzaGrigliaAi(){
+        partita.mostraGrigliaAi();
     }
 }
