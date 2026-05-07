@@ -11,12 +11,14 @@ public class Nave {
     private int rigaNave;
     private int colonnaNave;
     private boolean isVerticale;
+    private static int contNavi;
 
     public Nave(TipoNave tipoNave, int rigaNave, int colonnaNave, boolean isVerticale) {
         this.lunghezza = tipoNave.getLunghezza();
         this.rigaNave = rigaNave;
         this.colonnaNave = colonnaNave;
         this.isVerticale = isVerticale;
+        contNavi++;
     }
 
     public void setRigaNave(int rigaNave) {
@@ -65,6 +67,11 @@ public class Nave {
             }
         }
         return affondato = false;
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(contNavi);
     }
 
     public int getContaColpi() {

@@ -19,10 +19,14 @@ public class Griglia {
         setNaviGiocatore();
     }
 
-    public void posizionaNaviAi() {
+    public void posizionaNavi() {
         setNaveAi();
+//        System.out.println("Navi AI:  " + ia.toString());
     }
 
+    public String toStringAi(){
+        return ia.getNavi().toString();
+    }
     /**
      * inizializza le celle della griglia a vuote, nessuna nave
      */
@@ -89,22 +93,36 @@ public class Griglia {
         //aggiungere parametro restituito da metodo posizionaNaveAi() per la riga e la colonna e la direzione
         Nave naveAi = new Nave(TipoNave.INCROCIATORI);
         naveAi.setVerticale(setOrientamentoNaveAi(naveAi));
-        naveAi.setRigaNave(setPosizionamentoRigaColonnaNaveAi()[0]);
-        naveAi.setColonnaNave(setPosizionamentoRigaColonnaNaveAi()[1]);
+        naveAi.setRigaNave(setPosizionamentoRigaColonnaNaveAi(naveAi)[0]);
+        naveAi.setColonnaNave(setPosizionamentoRigaColonnaNaveAi(naveAi)[1]);
         System.out.println("orientamento nave: " + naveAi.isVerticale());
         System.out.println("Riga nave  ai:" + naveAi.getRigaNave() + " Colonna  nave ai:" + naveAi.getColonnaNave());
         ia.getNavi().add(naveAi);
+        posizionaNaveAi(naveAi);
     }
 
-    public void posizionaNaveAi(Nave nave) {
-        //TODO
+    private void posizionaNaveAi(Nave nave) {
+        for (int i = 0; i < nave.getLunghezza(); i++) {
+            if (nave.isVerticale()) {
+                statoCella[nave.getRigaNave() + i][nave.getColonnaNave()] = StatoCella.NAVE;
+            } else {
+                statoCella[nave.getRigaNave()][nave.getColonnaNave() + i] = StatoCella.NAVE;
+            }
+        }
     }
 
-    private int[] setPosizionamentoRigaColonnaNaveAi() {
+    private int[] setPosizionamentoRigaColonnaNaveAi(Nave nave) {
         Random rnd = new Random();
         int[] posizione = new int[2];
-        posizione[0] = rnd.nextInt(9) + 1;
-        posizione[1] = rnd.nextInt(9) + 1;
+
+        if (nave.isVerticale()) {
+            posizione[0] = rnd.nextInt(DIMENSIONE - nave.getLunghezza()); // riga sicura
+            posizione[1] = rnd.nextInt(DIMENSIONE);                       // colonna libera
+        } else {
+            posizione[0] = rnd.nextInt(DIMENSIONE);                       // riga libera
+            posizione[1] = rnd.nextInt(DIMENSIONE - nave.getLunghezza()); // colonna sicura
+        }
+
         return posizione;
     }
 

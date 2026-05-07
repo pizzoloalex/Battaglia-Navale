@@ -24,6 +24,14 @@ public class Giocatore {
         navi = new ArrayList<>();
     }
 
+//    public String toString() {
+//        String s = "";
+//        for (Nave n : navi) {
+//            s += n.toString();
+//        }
+//        return s;
+//    }
+
     public ArrayList<Nave> getNavi() {
         return navi;
     }
