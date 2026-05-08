@@ -22,7 +22,6 @@ public class GameController {
     private GridPane gridPaneNemica;
 
     private Partita partita;
-    private final int DIMENSIONE  = 10;
     @FXML
     public void initialize() {
         partita = new Partita();
@@ -33,8 +32,8 @@ public class GameController {
     }
 
     private void mostraNaviGiocatore() {
-        for (int i = 0; i < DIMENSIONE; i++) {
-            for (int j = 0; j < DIMENSIONE; j++) {
+        for (int i = 1; i < partita.getDimensione(); i++) {
+            for (int j = 1; j < partita.getDimensione(); j++) {
                 StackPane stk = new StackPane();
                 if (partita.getGrigliaGiocatore().getStatoCella()[i][j] == StatoCella.NAVE){
                     stk.setStyle("-fx-background-color: grey"); //colore della cella se ce la barca
@@ -67,8 +66,8 @@ public class GameController {
     }
 
     private void mostraGrigliaAi(){
-        for (int i = 0; i < DIMENSIONE; i++) {
-            for (int j = 0; j < DIMENSIONE; j++) {
+        for (int i = 1; i < partita.getDimensione(); i++) {
+            for (int j = 1; j < partita.getDimensione(); j++) {
                 StackPane stk = new StackPane();
                 if (partita.getGrigliaAi().getStatoCella()[i][j] == StatoCella.NAVE){
                     stk.setStyle("-fx-background-color: grey"); //colore della cella se ce la barca

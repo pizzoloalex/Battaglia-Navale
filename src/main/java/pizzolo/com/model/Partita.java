@@ -13,6 +13,10 @@ public class Partita {
     private boolean turno; //true = turno del giocatore ---- false = turno ai
     private boolean iaBoolean;
 
+    public int getDimensione(){
+        return grigliaGiocatore.getDIMENSIONE();
+    }
+
     public boolean isIaBoolean() {
         return iaBoolean;
     }
@@ -54,8 +58,9 @@ public class Partita {
     public void mostraGrigliaAi() {
         System.out.println("GESTIONE GRIGLIA AI");
         grigliaAi.posizionaNavi();
-        System.out.println("NAVI IA");
-        System.out.println(grigliaAi.toStringAi());
+        System.out.println(grigliaAi.toString());
+//        System.out.println("NAVI IA");
+//        System.out.println(grigliaAi.toStringAi());
     }
 
 }

@@ -3,10 +3,14 @@ package pizzolo.com.model;
 import java.util.Random;
 
 public class Griglia {
-    private final int DIMENSIONE = 10;
+    private final int DIMENSIONE = 11;
     private StatoCella[][] statoCella;
     private Giocatore giocatore;
     private Giocatore ia;
+
+    public int getDIMENSIONE() {
+        return DIMENSIONE;
+    }
 
     public Griglia() {
         giocatore = new Giocatore();
@@ -24,9 +28,9 @@ public class Griglia {
 //        System.out.println("Navi AI:  " + ia.toString());
     }
 
-    public String toStringAi(){
-        return ia.getNavi().toString();
-    }
+//    public String toStringAi(){
+//        return ia.getNavi().toString();
+//    }
     /**
      * inizializza le celle della griglia a vuote, nessuna nave
      */

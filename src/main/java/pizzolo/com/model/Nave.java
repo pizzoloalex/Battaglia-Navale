@@ -11,14 +11,14 @@ public class Nave {
     private int rigaNave;
     private int colonnaNave;
     private boolean isVerticale;
-    private static int contNavi;
+//    private static int contNavi;
 
     public Nave(TipoNave tipoNave, int rigaNave, int colonnaNave, boolean isVerticale) {
         this.lunghezza = tipoNave.getLunghezza();
         this.rigaNave = rigaNave;
         this.colonnaNave = colonnaNave;
         this.isVerticale = isVerticale;
-        contNavi++;
+//        contNavi++;
     }
 
     public void setRigaNave(int rigaNave) {
@@ -44,12 +44,11 @@ public class Nave {
         isVerticale = verticale;
     }
 
-    public void controlloBordi() {
-        //TODO
-        //metodo che controlla che se la posizione della nave e [1;1] e va verso alto verticale la sua lunghezza non puo essere piu lunga di dimensione -1
-    }
+//    public void controlloBordi() {
+//        //metodo che controlla che se la posizione della nave e [1;1] e va verso alto verticale la sua lunghezza non puo essere piu lunga di dimensione -1
+//    }
 
-    public boolean colpito(int riga, int colonna, Button btn) {
+    public boolean colpito(int riga, int colonna) {
         if (riga == rigaNave && colonna == colonnaNave) {
             return colpito = true;
         }
@@ -69,10 +68,10 @@ public class Nave {
         return affondato = false;
     }
 
-    @Override
-    public String toString() {
-        return String.valueOf(contNavi);
-    }
+//    @Override
+//    public String toString() {
+//        return String.valueOf(contNavi);
+//    }
 
     public int getContaColpi() {
         return contaColpi;
