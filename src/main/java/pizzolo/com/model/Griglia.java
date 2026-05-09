@@ -8,6 +8,14 @@ public class Griglia {
     private Giocatore giocatore;
     private Giocatore ia;
 
+    public Giocatore getGiocatore() {
+        return giocatore;
+    }
+
+    public Giocatore getIa() {
+        return ia;
+    }
+
     public int getDIMENSIONE() {
         return DIMENSIONE;
     }
@@ -31,6 +39,7 @@ public class Griglia {
 //    public String toStringAi(){
 //        return ia.getNavi().toString();
 //    }
+
     /**
      * inizializza le celle della griglia a vuote, nessuna nave
      */
@@ -45,6 +54,10 @@ public class Griglia {
 
     public StatoCella[][] getStatoCella() {
         return statoCella;
+    }
+
+    public StatoCella getStatoCella(int riga, int colonna) {
+        return statoCella[riga][colonna];
     }
 
     /**
@@ -93,14 +106,15 @@ public class Griglia {
     }
 
     public void setNaveAi() {
-        //TODO
-        //aggiungere parametro restituito da metodo posizionaNaveAi() per la riga e la colonna e la direzione
         Nave naveAi = new Nave(TipoNave.INCROCIATORI);
         naveAi.setVerticale(setOrientamentoNaveAi(naveAi));
-        naveAi.setRigaNave(setPosizionamentoRigaColonnaNaveAi(naveAi)[0]);
-        naveAi.setColonnaNave(setPosizionamentoRigaColonnaNaveAi(naveAi)[1]);
+
+        int[] posizione = setPosizionamentoRigaColonnaNaveAi(naveAi); // chiami UNA sola volta
+        naveAi.setRigaNave(posizione[0]);
+        naveAi.setColonnaNave(posizione[1]);
+
         System.out.println("orientamento nave: " + naveAi.isVerticale());
-        System.out.println("Riga nave  ai:" + naveAi.getRigaNave() + " Colonna  nave ai:" + naveAi.getColonnaNave());
+        System.out.println("Riga nave ai:" + naveAi.getRigaNave() + " Colonna nave ai:" + naveAi.getColonnaNave());
         ia.getNavi().add(naveAi);
         posizionaNaveAi(naveAi);
     }

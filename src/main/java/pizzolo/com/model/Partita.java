@@ -13,7 +13,7 @@ public class Partita {
     private boolean turno; //true = turno del giocatore ---- false = turno ai
     private boolean iaBoolean;
 
-    public int getDimensione(){
+    public int getDimensione() {
         return grigliaGiocatore.getDIMENSIONE();
     }
 
@@ -62,5 +62,41 @@ public class Partita {
 //        System.out.println("NAVI IA");
 //        System.out.println(grigliaAi.toStringAi());
     }
+
+    /**
+     * metodo che gestisce l'inizio della  partita
+     */
+    public void iniziaPartita() {
+        turno = true; //turno del giocatore
+        grigliaGiocatore.getGiocatore().setTurno(turno);
+    }
+
+    public void gestioneTurnoGiocatore(int riga, int colonna) {
+        if (grigliaGiocatore.getGiocatore().isTurno()) {
+//            System.out.println("Navi AI:" + ia.getNavi().size());
+            if (grigliaAi.getStatoCella(riga, colonna) != StatoCella.COLPITA && grigliaAi.getStatoCella(riga, colonna) != StatoCella.MANCATA) {
+
+                boolean colpita = false; // variabile di appoggio
+
+                for (Nave n : grigliaAi.getIa().getNavi()) {
+                    if (n.colpito(riga, colonna)) {
+                        colpita = true; // trovata una nave colpita
+                        grigliaAi.getStatoCella()[riga][colonna] = StatoCella.COLPITA;
+                        System.out.println("Colpita");
+                        if (n.affondato()) {
+                            System.out.println("Affondata");
+                        }
+                    }
+                }
+
+                // solo dopo il for controlli se nessuna nave è stata colpita
+                if (!colpita) {
+                    grigliaAi.getStatoCella()[riga][colonna] = StatoCella.MANCATA;
+                    System.out.println("Mancata");
+                }
+            }
+        }
+    }
+
 
 }

@@ -49,21 +49,24 @@ public class Nave {
 //    }
 
     public boolean colpito(int riga, int colonna) {
-        if (riga == rigaNave && colonna == colonnaNave) {
-            return colpito = true;
+        if (isVerticale) {
+            if (colonna == colonnaNave && riga >= colonna && riga <= riga + lunghezza - 1) {
+                contaColpi++;
+                return colpito = true;
+            } else {
+                if (colonna == colonnaNave && riga >= rigaNave && riga <= rigaNave + lunghezza - 1) {
+                    contaColpi++;
+                    return colpito = true;
+                }
+            }
         }
         return colpito = false;
     }
 
-    private int contaColpiAssegno() {
-        return contaColpi++;
-    }
-
     public boolean affondato() {
-        if (colpito) {
-            if (contaColpiAssegno() >= lunghezza) {
-                return affondato = true;
-            }
+        if (contaColpi >= lunghezza) {
+            return affondato = true;
+
         }
         return affondato = false;
     }
