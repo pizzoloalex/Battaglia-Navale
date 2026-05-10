@@ -3,7 +3,7 @@ package pizzolo.com.model;
 import java.util.Random;
 
 public class Griglia {
-    private final int DIMENSIONE = 11;
+    private final int DIMENSIONE = 10;
     private StatoCella[][] statoCella;
     private Giocatore giocatore;
     private Giocatore ia;

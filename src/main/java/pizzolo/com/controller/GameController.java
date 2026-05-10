@@ -5,6 +5,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import pizzolo.com.model.Nave;
 import pizzolo.com.model.Partita;
 import pizzolo.com.model.StatoCella;
 
@@ -22,10 +23,12 @@ public class GameController {
     private GridPane gridPaneNemica;
 
     private Partita partita;
+    private StackPane[][] celleAi;
 
     @FXML
     public void initialize() {
         partita = new Partita();
+        celleAi = new StackPane[partita.getDimensione()][partita.getDimensione()];
         inizializzaGrigliaGiocatore();
         mostraNaviGiocatore();
         inizializzaGrigliaAi();
@@ -34,8 +37,8 @@ public class GameController {
     }
 
     private void mostraNaviGiocatore() {
-        for (int i = 1; i < partita.getDimensione(); i++) {
-            for (int j = 1; j < partita.getDimensione(); j++) {
+        for (int i = 0; i < partita.getDimensione(); i++) {
+            for (int j = 0; j < partita.getDimensione(); j++) {
                 StackPane stk = new StackPane();
                 if (partita.getGrigliaGiocatore().getStatoCella()[i][j] == StatoCella.NAVE) {
                     stk.setStyle("-fx-background-color: grey"); //colore della cella se ce la barca
@@ -68,8 +71,8 @@ public class GameController {
     }
 
     private void mostraGrigliaAi() {
-        for (int i = 1; i < partita.getDimensione(); i++) {
-            for (int j = 1; j < partita.getDimensione(); j++) {
+        for (int i = 0; i < partita.getDimensione(); i++) {
+            for (int j = 0; j < partita.getDimensione(); j++) {
                 StackPane stk = new StackPane();
                 if (partita.getGrigliaAi().getStatoCella()[i][j] == StatoCella.NAVE) {
                     stk.setStyle("-fx-background-color: grey"); //colore della cella se ce la barca
@@ -84,15 +87,23 @@ public class GameController {
                 //dice al nodo quanto spazio occupare
                 GridPane.setFillWidth(stk, true);
                 GridPane.setFillHeight(stk, true);
+                celleAi[i][j] = stk;
                 gridPaneNemica.add(stk, j, i);
                 //OTTENIMENTO DELLA CELLA CLICCATA
-                int row = j;
-                int col = i;
+                int row = i;
+                int col = j;
                 stk.setOnMouseClicked(mouseEvent -> {
-                    partita.gestioneTurnoGiocatore(col, row);
-                    System.out.println(row);
-                    System.out.println(col);
-
+                    partita.gestioneTurnoGiocatore(row, col);
+                    if (partita.getGrigliaAi().getStatoCella(row, col) == StatoCella.COLPITA) {
+                        stk.setStyle("-fx-background-color: red");
+                    } else if (partita.getGrigliaAi().getStatoCella(row, col) == StatoCella.MANCATA) {
+                        stk.setStyle("-fx-background-color: blue");
+                    }
+//                    if (partita.getGrigliaAi().getIa().getNavi().get(0).affondato()){
+//                        stk.setStyle("-fx-background-color: black");
+//                    }
+//                    System.out.println("riga"+row);
+//                    System.out.println("colonna"+col);
                 });
             }
         }

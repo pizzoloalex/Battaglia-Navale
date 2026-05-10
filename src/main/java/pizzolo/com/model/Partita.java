@@ -6,15 +6,18 @@ package pizzolo.com.model;
  */
 public class Partita {
 
-    private Giocatore giocatore;
-    private Giocatore ia;
     private Griglia grigliaGiocatore;
     private Griglia grigliaAi;
     private boolean turno; //true = turno del giocatore ---- false = turno ai
     private boolean iaBoolean;
+    private Nave utlimaNaveAffondata;
 
     public int getDimensione() {
         return grigliaGiocatore.getDIMENSIONE();
+    }
+
+    public Nave getUtlimaNaveAffondata() {
+        return utlimaNaveAffondata;
     }
 
     public boolean isIaBoolean() {
@@ -31,9 +34,6 @@ public class Partita {
 
     public Partita() {
         grigliaAi = new Griglia();
-        this.turno = true;//inizia il giocatore
-        giocatore = new Giocatore();
-        ia = new Giocatore();
         grigliaGiocatore = new Griglia();
     }
 
@@ -73,7 +73,7 @@ public class Partita {
 
     public void gestioneTurnoGiocatore(int riga, int colonna) {
         if (grigliaGiocatore.getGiocatore().isTurno()) {
-//            System.out.println("Navi AI:" + ia.getNavi().size());
+            System.out.println("Navi AI:" + grigliaAi.getIa().getNavi().size());
             if (grigliaAi.getStatoCella(riga, colonna) != StatoCella.COLPITA && grigliaAi.getStatoCella(riga, colonna) != StatoCella.MANCATA) {
 
                 boolean colpita = false; // variabile di appoggio
@@ -84,12 +84,13 @@ public class Partita {
                         grigliaAi.getStatoCella()[riga][colonna] = StatoCella.COLPITA;
                         System.out.println("Colpita");
                         if (n.affondato()) {
+                            utlimaNaveAffondata = n;
                             System.out.println("Affondata");
                         }
                     }
                 }
 
-                // solo dopo il for controlli se nessuna nave è stata colpita
+                // controllo se nessuna nave e stata colpita
                 if (!colpita) {
                     grigliaAi.getStatoCella()[riga][colonna] = StatoCella.MANCATA;
                     System.out.println("Mancata");
