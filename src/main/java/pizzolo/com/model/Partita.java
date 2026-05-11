@@ -1,6 +1,8 @@
 package pizzolo.com.model;
 
 
+import java.util.Random;
+
 /**
  * classe che gestisce tutta la partita
  */
@@ -94,6 +96,7 @@ public class Partita {
                 if (!colpita) {
                     grigliaAi.getStatoCella()[riga][colonna] = StatoCella.MANCATA;
                     System.out.println("MANCATA");
+                    //scambia il turno
                     grigliaGiocatore.getGiocatore().setTurno(false);
                     grigliaAi.getIa().setTurno(true);
                 }
@@ -101,6 +104,38 @@ public class Partita {
         }
     }
 
+    public void gestioneTurnoAi(int riga, int colonna){
+        if (grigliaAi.getIa().isTurno()){
+            if (getGrigliaGiocatore().getStatoCella(riga,colonna) != StatoCella.MANCATA && getGrigliaGiocatore().getStatoCella(riga, colonna) != StatoCella.COLPITA){
 
+                boolean colpita = false; // variabile di appoggio
 
+                for (Nave n : grigliaAi.getIa().getNavi()) {
+                    if (n.colpito(riga, colonna)) {
+                        colpita = true; // trovata una nave colpita
+                        grigliaGiocatore.getStatoCella()[riga][colonna] = StatoCella.COLPITA;
+                        System.out.println("Colpita");
+                        if (n.affondato()) {
+                            utlimaNaveAffondata = n;
+                            System.out.println("Affondata");
+                        }
+                    }
+                }
+                if (!colpita) {
+                    grigliaGiocatore.getStatoCella()[riga][colonna] = StatoCella.MANCATA;
+                    System.out.println("MANCATA");
+                    //scambia il turno
+                    grigliaGiocatore.getGiocatore().setTurno(true);
+                    grigliaAi.getIa().setTurno(false);
+                }
+            }
+        }
+
+    }
+
+//    private int[] posizioneCellaColpita(int row, int col){
+//
+//        Random rnd = new Random();
+//
+//    }
 }

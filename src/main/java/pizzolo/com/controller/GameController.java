@@ -100,15 +100,11 @@ public class GameController {
                         stk.setStyle("-fx-background-color: blue");
                     }
                     //se la nave in gestione è affondata coloro tutte le celle
-                    for (Nave n: partita.getGrigliaAi().getIa().getNavi()){
-                        if (n.affondato()){
-                            System.out.println("AFFONDATO");
-                        }
-                    }
                 });
             }
         }
     }
+
 
     //TODO  controllare bug sulla gestione del click della nave  perche da problemi su quando colpisco e  quando no
     //gestire grafica
