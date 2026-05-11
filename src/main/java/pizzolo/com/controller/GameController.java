@@ -96,6 +96,11 @@ public class GameController {
                     partita.gestioneTurnoGiocatore(row, col);
                     if (partita.getGrigliaAi().getStatoCella(row, col) == StatoCella.COLPITA) {
                         stk.setStyle("-fx-background-color: red");
+                        Nave affondata = partita.getUtlimaNaveAffondata();
+                        if (affondata != null && affondata.affondato()){
+                            coloraNaveAffondata(affondata);
+                            partita.setUtlimaNaveAffondata(null); //reset
+                        }
                     } else if (partita.getGrigliaAi().getStatoCella(row, col) == StatoCella.MANCATA) {
                         stk.setStyle("-fx-background-color: blue");
                     }
@@ -105,6 +110,21 @@ public class GameController {
         }
     }
 
+    private void coloraNaveAffondata(Nave n){
+        for (int i = 0; i < n.getLunghezza(); i++) {
+            int r, c;
+            if (n.isVerticale()) {
+                r = n.getRigaNave() + i;
+                c = n.getColonnaNave();
+            } else {
+                r = n.getRigaNave();
+                c = n.getColonnaNave() + i;
+            }
+            if (celleAi[r][c] != null) {
+                celleAi[r][c].setStyle("-fx-background-color: black");
+            }
+        }
+    }
 
     //TODO  controllare bug sulla gestione del click della nave  perche da problemi su quando colpisco e  quando no
     //gestire grafica

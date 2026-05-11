@@ -14,6 +14,10 @@ public class Partita {
     private boolean iaBoolean;
     private Nave utlimaNaveAffondata;
 
+    public void setUtlimaNaveAffondata(Nave utlimaNaveAffondata) {
+        this.utlimaNaveAffondata = utlimaNaveAffondata;
+    }
+
     public int getDimensione() {
         return grigliaGiocatore.getDIMENSIONE();
     }
@@ -104,34 +108,34 @@ public class Partita {
         }
     }
 
-    public void gestioneTurnoAi(int riga, int colonna){
-        if (grigliaAi.getIa().isTurno()){
-            if (getGrigliaGiocatore().getStatoCella(riga,colonna) != StatoCella.MANCATA && getGrigliaGiocatore().getStatoCella(riga, colonna) != StatoCella.COLPITA){
-
-                boolean colpita = false; // variabile di appoggio
-
-                for (Nave n : grigliaAi.getIa().getNavi()) {
-                    if (n.colpito(riga, colonna)) {
-                        colpita = true; // trovata una nave colpita
-                        grigliaGiocatore.getStatoCella()[riga][colonna] = StatoCella.COLPITA;
-                        System.out.println("Colpita");
-                        if (n.affondato()) {
-                            utlimaNaveAffondata = n;
-                            System.out.println("Affondata");
-                        }
-                    }
-                }
-                if (!colpita) {
-                    grigliaGiocatore.getStatoCella()[riga][colonna] = StatoCella.MANCATA;
-                    System.out.println("MANCATA");
-                    //scambia il turno
-                    grigliaGiocatore.getGiocatore().setTurno(true);
-                    grigliaAi.getIa().setTurno(false);
-                }
-            }
-        }
-
-    }
+//    public void gestioneTurnoAi(int riga, int colonna){
+//        if (grigliaAi.getIa().isTurno()){
+//            if (getGrigliaGiocatore().getStatoCella(riga,colonna) != StatoCella.MANCATA && getGrigliaGiocatore().getStatoCella(riga, colonna) != StatoCella.COLPITA){
+//
+//                boolean colpita = false; // variabile di appoggio
+//
+//                for (Nave n : grigliaAi.getIa().getNavi()) {
+//                    if (n.colpito(riga, colonna)) {
+//                        colpita = true; // trovata una nave colpita
+//                        grigliaGiocatore.getStatoCella()[riga][colonna] = StatoCella.COLPITA;
+//                        System.out.println("Colpita");
+//                        if (n.affondato()) {
+//                            utlimaNaveAffondata = n;
+//                            System.out.println("Affondata");
+//                        }
+//                    }
+//                }
+//                if (!colpita) {
+//                    grigliaGiocatore.getStatoCella()[riga][colonna] = StatoCella.MANCATA;
+//                    System.out.println("MANCATA");
+//                    //scambia il turno
+//                    grigliaGiocatore.getGiocatore().setTurno(true);
+//                    grigliaAi.getIa().setTurno(false);
+//                }
+//            }
+//        }
+//
+//    }
 
 //    private int[] posizioneCellaColpita(int row, int col){
 //
