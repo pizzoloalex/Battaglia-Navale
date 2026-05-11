@@ -108,38 +108,26 @@ public class Partita {
         }
     }
 
-//    public void gestioneTurnoAi(int riga, int colonna){
-//        if (grigliaAi.getIa().isTurno()){
-//            if (getGrigliaGiocatore().getStatoCella(riga,colonna) != StatoCella.MANCATA && getGrigliaGiocatore().getStatoCella(riga, colonna) != StatoCella.COLPITA){
-//
-//                boolean colpita = false; // variabile di appoggio
-//
-//                for (Nave n : grigliaAi.getIa().getNavi()) {
-//                    if (n.colpito(riga, colonna)) {
-//                        colpita = true; // trovata una nave colpita
-//                        grigliaGiocatore.getStatoCella()[riga][colonna] = StatoCella.COLPITA;
-//                        System.out.println("Colpita");
-//                        if (n.affondato()) {
-//                            utlimaNaveAffondata = n;
-//                            System.out.println("Affondata");
-//                        }
-//                    }
-//                }
-//                if (!colpita) {
-//                    grigliaGiocatore.getStatoCella()[riga][colonna] = StatoCella.MANCATA;
-//                    System.out.println("MANCATA");
-//                    //scambia il turno
-//                    grigliaGiocatore.getGiocatore().setTurno(true);
-//                    grigliaAi.getIa().setTurno(false);
-//                }
-//            }
-//        }
-//
-//    }
+    public void gestioneTurnoAi(int riga, int colonna) {
+        //TODO
+        //Metodo: prende le cordinate restituite da gestioneColpoCellaAi() per gestire la cella cliccata
+        //Controllare lo stato delle varie celle
+        //Implementare la logica del colpo del AI cosicche dopo due colpi di fila capisca dove sia la nave e il suo orientamento
+    }
 
-//    private int[] posizioneCellaColpita(int row, int col){
-//
-//        Random rnd = new Random();
-//
-//    }
+    private int[] gestioneColpoCellaAi() {
+        Random rnd = new Random();
+        int[] posizione = new int[2];
+        // riga: parte da 1, e deve avere spazio per tutta la lunghezza senza uscire dalla griglia
+        posizione[0] = 1 + rnd.nextInt(grigliaGiocatore.getDIMENSIONE() - 2); // es: 1...(10-lunghezza-1)
+        // colonna: parte da 1
+        posizione[1] = 1 + rnd.nextInt(grigliaGiocatore.getDIMENSIONE() - 1); // es: 1...9
+        // riga: parte da 1
+        posizione[0] = 1 + rnd.nextInt(grigliaGiocatore.getDIMENSIONE() - 1); // es: 1...9
+        // colonna: parte da 1, e deve avere spazio per tutta la lunghezza
+        posizione[1] = 1 + rnd.nextInt(grigliaGiocatore.getDIMENSIONE() - 2); // es: 1...(10-lunghezza-1)
+
+
+        return posizione;
+    }
 }

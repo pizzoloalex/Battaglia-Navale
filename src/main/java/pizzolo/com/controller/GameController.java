@@ -57,6 +57,7 @@ public class GameController {
                 //OTTENIMENTO DELLA CELLA CLICCATA
                 int row = j;
                 int col = i;
+                //todo richiamare metodo gestioneTurnoAi() senza cliccare obbliatoriamente la cella
                 stk.setOnMouseClicked(mouseEvent -> {
                     System.out.println("click su col: " + col + "   riga: " + row);
 
