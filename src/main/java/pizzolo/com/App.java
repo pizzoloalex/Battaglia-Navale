@@ -21,6 +21,7 @@ public class App extends Application {
         stage.setScene(scene);
         //fa partire la schermata tutta grande
         stage.setMaximized(true);
+        stage.setTitle("Battaglia navale");
         stage.show();
     }
 

@@ -37,8 +37,8 @@ public class GameController {
     }
 
     private void mostraNaviGiocatore() {
-        for (int i = 0; i < partita.getDimensione(); i++) {
-            for (int j = 0; j < partita.getDimensione(); j++) {
+        for (int i = 1; i < partita.getDimensione(); i++) {
+            for (int j = 1; j < partita.getDimensione(); j++) {
                 StackPane stk = new StackPane();
                 if (partita.getGrigliaGiocatore().getStatoCella()[i][j] == StatoCella.NAVE) {
                     stk.setStyle("-fx-background-color: grey"); //colore della cella se ce la barca
@@ -71,8 +71,8 @@ public class GameController {
     }
 
     private void mostraGrigliaAi() {
-        for (int i = 0; i < partita.getDimensione(); i++) {
-            for (int j = 0; j < partita.getDimensione(); j++) {
+        for (int i = 1; i < partita.getDimensione(); i++) {
+            for (int j = 1; j < partita.getDimensione(); j++) {
                 StackPane stk = new StackPane();
                 if (partita.getGrigliaAi().getStatoCella()[i][j] == StatoCella.NAVE) {
                     stk.setStyle("-fx-background-color: grey"); //colore della cella se ce la barca
@@ -98,6 +98,12 @@ public class GameController {
                         stk.setStyle("-fx-background-color: red");
                     } else if (partita.getGrigliaAi().getStatoCella(row, col) == StatoCella.MANCATA) {
                         stk.setStyle("-fx-background-color: blue");
+                    }
+                    //se la nave in gestione è affondata coloro tutte le celle
+                    for (Nave n: partita.getGrigliaAi().getIa().getNavi()){
+                        if (n.affondato()){
+                            System.out.println("AFFONDATO");
+                        }
                     }
 //                    if (partita.getGrigliaAi().getIa().getNavi().get(0).affondato()){
 //                        stk.setStyle("-fx-background-color: black");
