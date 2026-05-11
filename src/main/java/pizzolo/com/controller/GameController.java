@@ -105,11 +105,6 @@ public class GameController {
                             System.out.println("AFFONDATO");
                         }
                     }
-//                    if (partita.getGrigliaAi().getIa().getNavi().get(0).affondato()){
-//                        stk.setStyle("-fx-background-color: black");
-//                    }
-//                    System.out.println("riga"+row);
-//                    System.out.println("colonna"+col);
                 });
             }
         }

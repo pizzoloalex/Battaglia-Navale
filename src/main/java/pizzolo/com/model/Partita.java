@@ -93,11 +93,14 @@ public class Partita {
                 // controllo se nessuna nave e stata colpita
                 if (!colpita) {
                     grigliaAi.getStatoCella()[riga][colonna] = StatoCella.MANCATA;
-                    System.out.println("Mancata");
+                    System.out.println("MANCATA");
+                    grigliaGiocatore.getGiocatore().setTurno(false);
+                    grigliaAi.getIa().setTurno(true);
                 }
             }
         }
     }
+
 
 
 }

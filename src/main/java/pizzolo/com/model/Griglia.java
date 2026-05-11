@@ -3,7 +3,7 @@ package pizzolo.com.model;
 import java.util.Random;
 
 public class Griglia {
-    private final int DIMENSIONE = 11;
+    private final int DIMENSIONE = 10;
     private StatoCella[][] statoCella;
     private Giocatore giocatore;
     private Giocatore ia;
@@ -134,11 +134,15 @@ public class Griglia {
         int[] posizione = new int[2];
 
         if (nave.isVerticale()) {
-            posizione[0] = rnd.nextInt(DIMENSIONE - nave.getLunghezza()); // riga sicura
-            posizione[1] = rnd.nextInt(DIMENSIONE);                       // colonna libera
+            // riga: parte da 1, e deve avere spazio per tutta la lunghezza senza uscire dalla griglia
+            posizione[0] = 1 + rnd.nextInt(DIMENSIONE - nave.getLunghezza() - 1); // es: 1...(10-lunghezza-1)
+            // colonna: parte da 1
+            posizione[1] = 1 + rnd.nextInt(DIMENSIONE - 1); // es: 1...9
         } else {
-            posizione[0] = rnd.nextInt(DIMENSIONE);                       // riga libera
-            posizione[1] = rnd.nextInt(DIMENSIONE - nave.getLunghezza()); // colonna sicura
+            // riga: parte da 1
+            posizione[0] = 1 + rnd.nextInt(DIMENSIONE - 1); // es: 1...9
+            // colonna: parte da 1, e deve avere spazio per tutta la lunghezza
+            posizione[1] = 1 + rnd.nextInt(DIMENSIONE - nave.getLunghezza() - 1); // es: 1...(10-lunghezza-1)
         }
 
         return posizione;
