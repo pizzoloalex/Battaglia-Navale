@@ -24,11 +24,13 @@ public class GameController {
 
     private Partita partita;
     private StackPane[][] celleAi;
+    private StackPane[][] cellaGiocatore;
 
     @FXML
     public void initialize() {
         partita = new Partita();
         celleAi = new StackPane[partita.getDimensione()][partita.getDimensione()];
+        cellaGiocatore = new StackPane[partita.getDimensione()][partita.getDimensione()];
         inizializzaGrigliaGiocatore();
         mostraNaviGiocatore();
         inizializzaGrigliaAi();
@@ -53,6 +55,7 @@ public class GameController {
                 //dice al nodo quanto spazio occupare
                 GridPane.setFillWidth(stk, true);
                 GridPane.setFillHeight(stk, true);
+                cellaGiocatore[i][j] = stk;
                 gridPanePersonale.add(stk, j, i);
                 //OTTENIMENTO DELLA CELLA CLICCATA
                 int row = j;
@@ -98,7 +101,7 @@ public class GameController {
                     if (partita.getGrigliaAi().getStatoCella(row, col) == StatoCella.COLPITA) {
                         stk.setStyle("-fx-background-color: red");
                         Nave affondata = partita.getUtlimaNaveAffondata();
-                        if (affondata != null && affondata.affondato()){
+                        if (affondata != null && affondata.affondato()) {
                             coloraNaveAffondata(affondata);
                             partita.setUtlimaNaveAffondata(null); //reset
                         }
@@ -106,12 +109,13 @@ public class GameController {
                         stk.setStyle("-fx-background-color: blue");
                     }
                     //se la nave in gestione è affondata coloro tutte le celle
+                    gestioneVisibilitaTurno();
                 });
             }
         }
     }
 
-    private void coloraNaveAffondata(Nave n){
+    private void coloraNaveAffondata(Nave n) {
         for (int i = 0; i < n.getLunghezza(); i++) {
             int r, c;
             if (n.isVerticale()) {
@@ -123,6 +127,25 @@ public class GameController {
             }
             if (celleAi[r][c] != null) {
                 celleAi[r][c].setStyle("-fx-background-color: black");
+            }
+        }
+    }
+
+    public void gestioneVisibilitaTurno(){
+        boolean turnoGiocatore = partita.getGrigliaGiocatore().getGiocatore().isTurno();
+
+        for (int i = 1; i < partita.getDimensione(); i++) {
+            for (int j = 1; j < partita.getDimensione(); j++) {
+                if (celleAi[i][j] != null){
+                    StatoCella statoCella = partita.getGrigliaGiocatore().getStatoCella(i,j);
+                    if (statoCella == StatoCella.NAVE){
+                        if (turnoGiocatore){
+                            celleAi[i][j].setStyle("-fx-background-color: transparent");
+                        }else {
+                            celleAi[i][j].setStyle("-fx-background-color: gray");
+                        }
+                    }
+                }
             }
         }
     }
