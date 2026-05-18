@@ -1,6 +1,5 @@
 package pizzolo.com.controller;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
@@ -32,11 +31,11 @@ public class GameController {
         partita = new Partita();
         celleAi = new StackPane[partita.getDimensione()][partita.getDimensione()];
         cellaGiocatore = new StackPane[partita.getDimensione()][partita.getDimensione()];
+        partita.iniziaPartita();
         inizializzaGrigliaGiocatore();
         mostraNaviGiocatore();
         inizializzaGrigliaAi();
         mostraGrigliaAi();
-        partita.iniziaPartita();
     }
 
     private void mostraNaviGiocatore() {
@@ -69,7 +68,11 @@ public class GameController {
         for (int i = 1; i < partita.getDimensione(); i++) {
             for (int j = 1; j < partita.getDimensione(); j++) {
                 StackPane stk = new StackPane();
-                stk.setStyle("-fx-background-color: lightgray");
+                if (partita.getGrigliaAi().getStatoCella()[i][j] == StatoCella.NAVE) {
+                    stk.setStyle("-fx-background-color: grey");
+                } else {
+                    stk.setStyle("-fx-background-color: transparent");
+                }
                 stk.setMaxWidth(Double.MAX_VALUE);
                 stk.setMaxHeight(Double.MAX_VALUE);
                 GridPane.setHgrow(stk, Priority.ALWAYS);
@@ -92,69 +95,48 @@ public class GameController {
                     }
 
                     partita.gestioneTurnoGiocatore(riga, colonna);
-                    aggiornaGrigliaAiDopoGiocatore(riga, colonna, stk);
-
-                    if (partita.getGrigliaAi().getStatoCella(riga, colonna) == StatoCella.MANCATA) {
-                        Platform.runLater(this::turnoAiCompleto);
+//                    if(partita.getGrigliaAi().getStatoCella(riga, colonna) == StatoCella.MANCATA){
+//                        stk.setStyle("-fx-background-color: blue");
+//                    }
+                    aggiornaGrigliaAi(riga, colonna, stk);
+                    if (partita.getGrigliaAi().getIa().isTurno()) {
+                        partita.gestioneTurnoAi();
+                        aggiornaGrigliaGiocatore();
                     }
+
                 });
             }
         }
     }
 
-    /**
-     * Gestisce il turno completo dell'AI (continua se colpisce)
-     */
-    private void turnoAiCompleto() {
-        boolean colpita = partita.gestioneTurnoAi();
-        aggiornaGrigliaGiocatoreDopoAi();
 
-        if (colpita && partita.getGrigliaAi().getIa().isTurno()) {
-            Platform.runLater(() -> {
-                try {
-                    Thread.sleep(800);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                turnoAiCompleto();
-            });
-        }
-    }
-
-    private void aggiornaGrigliaAiDopoGiocatore(int riga, int colonna, StackPane stk) {
+    private void aggiornaGrigliaAi(int riga, int colonna, StackPane stk) {
         if (partita.getGrigliaAi().getStatoCella(riga, colonna) == StatoCella.COLPITA) {
             stk.setStyle("-fx-background-color: red");
-            Nave affondata = partita.getUltimaNaveAffondataAi();
+            Nave affondata = partita.getUtlimaNaveAffondata();
             if (affondata != null && affondata.affondato()) {
-                coloraNaveAffondataAi(affondata);
-                partita.setUltimaNaveAffondataAi(null);
+                coloraNaveAffondata(affondata);
+                partita.setUtlimaNaveAffondata(null);
             }
         } else if (partita.getGrigliaAi().getStatoCella(riga, colonna) == StatoCella.MANCATA) {
             stk.setStyle("-fx-background-color: blue");
         }
     }
 
-    private void aggiornaGrigliaGiocatoreDopoAi() {
+    private void aggiornaGrigliaGiocatore() {
         for (int i = 1; i < partita.getDimensione(); i++) {
             for (int j = 1; j < partita.getDimensione(); j++) {
-                StatoCella stato = partita.getGrigliaGiocatore().getStatoCella(i, j);
-                if (cellaGiocatore[i][j] != null) {
-                    if (stato == StatoCella.COLPITA) {
-                        cellaGiocatore[i][j].setStyle("-fx-background-color: red");
-                        Nave affondata = partita.getUtlimaNaveAffondataGiocatore();
-                        if (affondata != null && affondata.affondato()) {
-                            coloraNaveAffondataGiocatore(affondata);
-                            partita.setUtlimaNaveAffondataGiocatore(null);
-                        }
-                    } else if (stato == StatoCella.MANCATA) {
-                        cellaGiocatore[i][j].setStyle("-fx-background-color: blue");
-                    }
+                StatoCella stato = partita.getGrigliaGiocatore().getStatoCella()[i][j];
+                if (stato == StatoCella.COLPITA) {
+                    cellaGiocatore[i][j].setStyle("-fx-background-color: red");
+                } else if (stato == StatoCella.MANCATA) {
+                    cellaGiocatore[i][j].setStyle("-fx-background-color: blue");
                 }
             }
         }
     }
 
-    private void coloraNaveAffondataAi(Nave n) {
+    private void coloraNaveAffondata(Nave n) {
         for (int i = 0; i < n.getLunghezza(); i++) {
             int r, c;
             if (n.isVerticale()) {
@@ -166,22 +148,6 @@ public class GameController {
             }
             if (celleAi[r][c] != null) {
                 celleAi[r][c].setStyle("-fx-background-color: black");
-            }
-        }
-    }
-
-    private void coloraNaveAffondataGiocatore(Nave n) {
-        for (int i = 0; i < n.getLunghezza(); i++) {
-            int r, c;
-            if (n.isVerticale()) {
-                r = n.getRigaNave() + i;
-                c = n.getColonnaNave();
-            } else {
-                r = n.getRigaNave();
-                c = n.getColonnaNave() + i;
-            }
-            if (cellaGiocatore[r][c] != null) {
-                cellaGiocatore[r][c].setStyle("-fx-background-color: black");
             }
         }
     }

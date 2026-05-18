@@ -11,8 +11,7 @@ public class Partita {
     private Griglia grigliaAi;
     private boolean turno; //true = turno del giocatore ---- false = turno ai
     private boolean iaBoolean;
-    private Nave ultimaNaveAffondataGiocatore;
-    private Nave ultimaNaveAffondataAi;
+    private Nave ultimaNaveAffondata;
 
     public Partita() {
         grigliaAi = new Griglia();
@@ -31,20 +30,12 @@ public class Partita {
         return grigliaAi;
     }
 
-    public Nave getUtlimaNaveAffondataGiocatore() {
-        return ultimaNaveAffondataGiocatore;
+    public Nave getUtlimaNaveAffondata() {
+        return ultimaNaveAffondata;
     }
 
-    public void setUtlimaNaveAffondataGiocatore(Nave nave) {
-        this.ultimaNaveAffondataGiocatore = nave;
-    }
-
-    public Nave getUltimaNaveAffondataAi() {
-        return ultimaNaveAffondataAi;
-    }
-
-    public void setUltimaNaveAffondataAi(Nave nave) {
-        this.ultimaNaveAffondataAi = nave;
+    public void setUtlimaNaveAffondata(Nave nave) {
+        this.ultimaNaveAffondata = nave;
     }
 
     public boolean isIaBoolean() {
@@ -81,30 +72,27 @@ public class Partita {
      * Gestisce l'attacco del giocatore sulla griglia dell'AI
      */
     public void gestioneTurnoGiocatore(int riga, int colonna) {
-        if (!grigliaGiocatore.getGiocatore().isTurno()) {
-            return;
-        }
-
-        boolean colpita = false;
-
-        for (Nave n : grigliaAi.getIa().getNavi()) {
-            if (n.colpito(riga, colonna)) {
-                colpita = true;
-                grigliaAi.getStatoCella()[riga][colonna] = StatoCella.COLPITA;
-                System.out.println("Giocatore colpisce [" + riga + "," + colonna + "]");
-                if (n.affondato()) {
-                    ultimaNaveAffondataAi = n;
-                    System.out.println("Giocatore affonda nave AI");
+        if (grigliaGiocatore.getGiocatore().isTurno()) {
+            if (grigliaAi.getStatoCella(riga, colonna) != StatoCella.COLPITA && grigliaAi.getStatoCella(riga, colonna) != StatoCella.MANCATA) {
+                boolean colpita = false;
+                for (Nave n : grigliaAi.getIa().getNavi()) {
+                    if (n.colpito(riga, colonna)) {
+                        colpita = true;
+                        grigliaAi.getStatoCella()[riga][colonna] = StatoCella.COLPITA;
+                        System.out.println("Giocatore colpisce riga " + riga + " e colonna " + colonna);
+                        if (n.affondato()) {
+                            ultimaNaveAffondata = n;
+                            System.out.println("Giocattore affonda  nave");
+                        }
+                    }
                 }
-                break;
+                if (!colpita) {
+                    grigliaAi.getStatoCella()[riga][colonna] = StatoCella.MANCATA;
+                    grigliaGiocatore.getGiocatore().setTurno(false);
+                    grigliaAi.getIa().setTurno(true);
+                    System.out.println("Turno cambiato,  tocca  AI");
+                }
             }
-        }
-
-        if (!colpita) {
-            grigliaAi.getStatoCella()[riga][colonna] = StatoCella.MANCATA;
-            System.out.println("Giocatore manca [" + riga + "," + colonna + "]");
-            grigliaGiocatore.getGiocatore().setTurno(false);
-            grigliaAi.getIa().setTurno(true);
         }
     }
 
@@ -112,43 +100,35 @@ public class Partita {
      * Gestisce il turno dell'AI
      * Ritorna true se l'AI ha colpito, false se ha mancato
      */
-    public boolean gestioneTurnoAi() {
-        if (!grigliaAi.getIa().isTurno()) {
-            return false;
-        }
-
-        int[] posizione = gestioneColpoCellaAi();
-        int riga = posizione[0];
-        int colonna = posizione[1];
-
-        // Se la cella è già stata giocata, ritenta con nuove coordinate
-        if (grigliaGiocatore.getStatoCella(riga, colonna) == StatoCella.COLPITA ||
-                grigliaGiocatore.getStatoCella(riga, colonna) == StatoCella.MANCATA) {
-            return gestioneTurnoAi(); // Richiama ricorsivamente
-        }
-
-        boolean colpita = false;
-        for (Nave n : grigliaGiocatore.getGiocatore().getNavi()) {
-            if (n.colpito(riga, colonna)) {
-                colpita = true;
-                grigliaGiocatore.getStatoCella()[riga][colonna] = StatoCella.COLPITA;
-                System.out.println("AI colpisce [" + riga + "," + colonna + "]");
-                if (n.affondato()) {
-                    ultimaNaveAffondataGiocatore = n;
-                    System.out.println("AI affonda nave giocatore");
+    public void gestioneTurnoAi() {
+        //TODO
+        while (grigliaAi.getIa().isTurno()) {
+            int[] posizione = gestioneColpoCellaAi();
+            int riga = posizione[0];
+            int colonna = posizione[1];
+            if (grigliaGiocatore.getStatoCella(riga, colonna) != StatoCella.COLPITA && grigliaGiocatore.getStatoCella(riga, colonna) != StatoCella.MANCATA) {
+                boolean colpita = false;
+                for (Nave n : grigliaGiocatore.getGiocatore().getNavi()) {
+                    if (n.colpito(riga, colonna)) {
+                        colpita = true;
+                        grigliaGiocatore.getStatoCella()[riga][colonna] = StatoCella.COLPITA;
+                        System.out.println("AI colpisce riga " + riga + " e colonna " + colonna);
+                        if (n.affondato()) {
+                            ultimaNaveAffondata = n;
+                            System.out.println("AI affonda  nave");
+                        }
+                    }
                 }
-                break;
+                if (colpita) {
+                    continue;
+                } else {
+                    grigliaGiocatore.getStatoCella()[riga][colonna] = StatoCella.MANCATA;
+                    grigliaGiocatore.getGiocatore().setTurno(true);
+                    grigliaAi.getIa().setTurno(false);
+                    System.out.println("Turno cambiato , tocca  al  giocatore");
+                }
             }
         }
-
-        if (!colpita) {
-            grigliaGiocatore.getStatoCella()[riga][colonna] = StatoCella.MANCATA;
-            System.out.println("AI manca [" + riga + "," + colonna + "], turno al giocatore");
-            grigliaAi.getIa().setTurno(false);
-            grigliaGiocatore.getGiocatore().setTurno(true);
-        }
-
-        return colpita;
     }
 
     /**
