@@ -76,7 +76,7 @@
     </VBox>
 
     <!-- DESTRA: La flotta nemica -->
-    <VBox fx:id="vBoxFlottaNemica" maxHeight="Infinity" maxWidth="Infinity" spacing="10" HBox.hgrow="ALWAYS">
+    <VBox fx:id="vBoxFlottaNemica" alignment="CENTER" maxHeight="Infinity" maxWidth="Infinity" spacing="10" HBox.hgrow="ALWAYS">
 
         <HBox alignment="CENTER" maxWidth="Infinity" style="-fx-background-color: #ff8585; -fx-padding: 10;">
             <Label text="La flotta nemica">

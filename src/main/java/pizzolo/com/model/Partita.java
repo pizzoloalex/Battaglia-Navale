@@ -1,6 +1,5 @@
 package pizzolo.com.model;
 
-
 import java.util.Random;
 
 /**
@@ -12,18 +11,40 @@ public class Partita {
     private Griglia grigliaAi;
     private boolean turno; //true = turno del giocatore ---- false = turno ai
     private boolean iaBoolean;
-    private Nave utlimaNaveAffondata;
+    private Nave ultimaNaveAffondataGiocatore;
+    private Nave ultimaNaveAffondataAi;
 
-    public void setUtlimaNaveAffondata(Nave utlimaNaveAffondata) {
-        this.utlimaNaveAffondata = utlimaNaveAffondata;
+    public Partita() {
+        grigliaAi = new Griglia();
+        grigliaGiocatore = new Griglia();
     }
 
     public int getDimensione() {
         return grigliaGiocatore.getDIMENSIONE();
     }
 
-    public Nave getUtlimaNaveAffondata() {
-        return utlimaNaveAffondata;
+    public Griglia getGrigliaGiocatore() {
+        return grigliaGiocatore;
+    }
+
+    public Griglia getGrigliaAi() {
+        return grigliaAi;
+    }
+
+    public Nave getUtlimaNaveAffondataGiocatore() {
+        return ultimaNaveAffondataGiocatore;
+    }
+
+    public void setUtlimaNaveAffondataGiocatore(Nave nave) {
+        this.ultimaNaveAffondataGiocatore = nave;
+    }
+
+    public Nave getUltimaNaveAffondataAi() {
+        return ultimaNaveAffondataAi;
+    }
+
+    public void setUltimaNaveAffondataAi(Nave nave) {
+        this.ultimaNaveAffondataAi = nave;
     }
 
     public boolean isIaBoolean() {
@@ -34,100 +55,110 @@ public class Partita {
         this.iaBoolean = iaBoolean;
     }
 
-    public Griglia getGrigliaAi() {
-        return grigliaAi;
-    }
-
-    public Partita() {
-        grigliaAi = new Griglia();
-        grigliaGiocatore = new Griglia();
-    }
-
-    public Griglia getGrigliaGiocatore() {
-        return grigliaGiocatore;
-    }
-
-    //METODO DI DEBUG SENZA NAVI
     public void mostraGrigliaIniziale() {
         System.out.println("GRIGLIA SENZA NAVI");
         System.out.println(grigliaGiocatore.toString());
     }
 
-    //METODO DI DEBUG CON NAVI
     public void mostraGrigliaConNavi() {
         grigliaGiocatore.posizionaNaviGiocatore();
         System.out.println("GRIGLIA CON NAVI");
         System.out.println(grigliaGiocatore.toString());
     }
 
-    //METODO DEBUG NAVI AI
     public void mostraGrigliaAi() {
         System.out.println("GESTIONE GRIGLIA AI");
         grigliaAi.posizionaNavi();
         System.out.println(grigliaAi.toString());
-//        System.out.println("NAVI IA");
-//        System.out.println(grigliaAi.toStringAi());
     }
 
-    /**
-     * metodo che gestisce l'inizio della  partita
-     */
     public void iniziaPartita() {
-        turno = true; //turno del giocatore
+        turno = true;
         grigliaGiocatore.getGiocatore().setTurno(turno);
     }
 
+    /**
+     * Gestisce l'attacco del giocatore sulla griglia dell'AI
+     */
     public void gestioneTurnoGiocatore(int riga, int colonna) {
-        if (grigliaGiocatore.getGiocatore().isTurno()) {
-            System.out.println("Navi AI:" + grigliaAi.getIa().getNavi().size());
-            if (grigliaAi.getStatoCella(riga, colonna) != StatoCella.COLPITA && grigliaAi.getStatoCella(riga, colonna) != StatoCella.MANCATA) {
+        if (!grigliaGiocatore.getGiocatore().isTurno()) {
+            return;
+        }
 
-                boolean colpita = false; // variabile di appoggio
+        boolean colpita = false;
 
-                for (Nave n : grigliaAi.getIa().getNavi()) {
-                    if (n.colpito(riga, colonna)) {
-                        colpita = true; // trovata una nave colpita
-                        grigliaAi.getStatoCella()[riga][colonna] = StatoCella.COLPITA;
-                        System.out.println("Colpita");
-                        if (n.affondato()) {
-                            utlimaNaveAffondata = n;
-                            System.out.println("Affondata");
-                        }
-                    }
+        for (Nave n : grigliaAi.getIa().getNavi()) {
+            if (n.colpito(riga, colonna)) {
+                colpita = true;
+                grigliaAi.getStatoCella()[riga][colonna] = StatoCella.COLPITA;
+                System.out.println("Giocatore colpisce [" + riga + "," + colonna + "]");
+                if (n.affondato()) {
+                    ultimaNaveAffondataAi = n;
+                    System.out.println("Giocatore affonda nave AI");
                 }
-
-                // controllo se nessuna nave e stata colpita
-                if (!colpita) {
-                    grigliaAi.getStatoCella()[riga][colonna] = StatoCella.MANCATA;
-                    System.out.println("MANCATA");
-                    //scambia il turno
-                    grigliaGiocatore.getGiocatore().setTurno(false);
-                    grigliaAi.getIa().setTurno(true);
-                }
+                break;
             }
+        }
+
+        if (!colpita) {
+            grigliaAi.getStatoCella()[riga][colonna] = StatoCella.MANCATA;
+            System.out.println("Giocatore manca [" + riga + "," + colonna + "]");
+            grigliaGiocatore.getGiocatore().setTurno(false);
+            grigliaAi.getIa().setTurno(true);
         }
     }
 
-    public void gestioneTurnoAi(int riga, int colonna) {
-        //TODO
-        //Metodo: prende le cordinate restituite da gestioneColpoCellaAi() per gestire la cella cliccata
-        //Controllare lo stato delle varie celle
-        //Implementare la logica del colpo del AI cosicche dopo due colpi di fila capisca dove sia la nave e il suo orientamento
+    /**
+     * Gestisce il turno dell'AI
+     * Ritorna true se l'AI ha colpito, false se ha mancato
+     */
+    public boolean gestioneTurnoAi() {
+        if (!grigliaAi.getIa().isTurno()) {
+            return false;
+        }
+
+        int[] posizione = gestioneColpoCellaAi();
+        int riga = posizione[0];
+        int colonna = posizione[1];
+
+        // Se la cella è già stata giocata, ritenta con nuove coordinate
+        if (grigliaGiocatore.getStatoCella(riga, colonna) == StatoCella.COLPITA ||
+                grigliaGiocatore.getStatoCella(riga, colonna) == StatoCella.MANCATA) {
+            return gestioneTurnoAi(); // Richiama ricorsivamente
+        }
+
+        boolean colpita = false;
+        for (Nave n : grigliaGiocatore.getGiocatore().getNavi()) {
+            if (n.colpito(riga, colonna)) {
+                colpita = true;
+                grigliaGiocatore.getStatoCella()[riga][colonna] = StatoCella.COLPITA;
+                System.out.println("AI colpisce [" + riga + "," + colonna + "]");
+                if (n.affondato()) {
+                    ultimaNaveAffondataGiocatore = n;
+                    System.out.println("AI affonda nave giocatore");
+                }
+                break;
+            }
+        }
+
+        if (!colpita) {
+            grigliaGiocatore.getStatoCella()[riga][colonna] = StatoCella.MANCATA;
+            System.out.println("AI manca [" + riga + "," + colonna + "], turno al giocatore");
+            grigliaAi.getIa().setTurno(false);
+            grigliaGiocatore.getGiocatore().setTurno(true);
+        }
+
+        return colpita;
     }
 
+    /**
+     * Genera coordinate casuali per l'attacco dell'AI
+     */
     private int[] gestioneColpoCellaAi() {
         Random rnd = new Random();
         int[] posizione = new int[2];
-        // riga: parte da 1, e deve avere spazio per tutta la lunghezza senza uscire dalla griglia
-        posizione[0] = 1 + rnd.nextInt(grigliaGiocatore.getDIMENSIONE() - 2); // es: 1...(10-lunghezza-1)
-        // colonna: parte da 1
-        posizione[1] = 1 + rnd.nextInt(grigliaGiocatore.getDIMENSIONE() - 1); // es: 1...9
-        // riga: parte da 1
-        posizione[0] = 1 + rnd.nextInt(grigliaGiocatore.getDIMENSIONE() - 1); // es: 1...9
-        // colonna: parte da 1, e deve avere spazio per tutta la lunghezza
-        posizione[1] = 1 + rnd.nextInt(grigliaGiocatore.getDIMENSIONE() - 2); // es: 1...(10-lunghezza-1)
-
-
+        posizione[0] = 1 + rnd.nextInt(grigliaGiocatore.getDIMENSIONE() - 1);
+        posizione[1] = 1 + rnd.nextInt(grigliaGiocatore.getDIMENSIONE() - 1);
         return posizione;
     }
 }

@@ -1,5 +1,6 @@
 package pizzolo.com.controller;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
@@ -43,28 +44,18 @@ public class GameController {
             for (int j = 1; j < partita.getDimensione(); j++) {
                 StackPane stk = new StackPane();
                 if (partita.getGrigliaGiocatore().getStatoCella()[i][j] == StatoCella.NAVE) {
-                    stk.setStyle("-fx-background-color: grey"); //colore della cella se ce la barca
+                    stk.setStyle("-fx-background-color: grey");
                 } else {
-                    stk.setStyle("-fx-background-color: transparent"); // nessuna barca
+                    stk.setStyle("-fx-background-color: transparent");
                 }
                 stk.setMaxWidth(Double.MAX_VALUE);
                 stk.setMaxHeight(Double.MAX_VALUE);
-                //gestisce lo spazio di colonna/riga
                 GridPane.setHgrow(stk, Priority.ALWAYS);
                 GridPane.setVgrow(stk, Priority.ALWAYS);
-                //dice al nodo quanto spazio occupare
                 GridPane.setFillWidth(stk, true);
                 GridPane.setFillHeight(stk, true);
                 cellaGiocatore[i][j] = stk;
                 gridPanePersonale.add(stk, j, i);
-                //OTTENIMENTO DELLA CELLA CLICCATA
-                int row = j;
-                int col = i;
-                //todo richiamare metodo gestioneTurnoAi() senza cliccare obbliatoriamente la cella
-                stk.setOnMouseClicked(mouseEvent -> {
-                    System.out.println("click su col: " + col + "   riga: " + row);
-
-                });
             }
         }
     }
@@ -78,44 +69,92 @@ public class GameController {
         for (int i = 1; i < partita.getDimensione(); i++) {
             for (int j = 1; j < partita.getDimensione(); j++) {
                 StackPane stk = new StackPane();
-                if (partita.getGrigliaAi().getStatoCella()[i][j] == StatoCella.NAVE) {
-                    stk.setStyle("-fx-background-color: grey"); //colore della cella se ce la barca
-                } else {
-                    stk.setStyle("-fx-background-color: transparent"); // nessuna barca
-                }
+                stk.setStyle("-fx-background-color: lightgray");
                 stk.setMaxWidth(Double.MAX_VALUE);
                 stk.setMaxHeight(Double.MAX_VALUE);
-                //gestisce lo spazio di colonna/riga
                 GridPane.setHgrow(stk, Priority.ALWAYS);
                 GridPane.setVgrow(stk, Priority.ALWAYS);
-                //dice al nodo quanto spazio occupare
                 GridPane.setFillWidth(stk, true);
                 GridPane.setFillHeight(stk, true);
                 celleAi[i][j] = stk;
                 gridPaneNemica.add(stk, j, i);
-                //OTTENIMENTO DELLA CELLA CLICCATA
-                int row = i;
-                int col = j;
+
+                int riga = i;
+                int colonna = j;
                 stk.setOnMouseClicked(mouseEvent -> {
-                    partita.gestioneTurnoGiocatore(row, col);
-                    if (partita.getGrigliaAi().getStatoCella(row, col) == StatoCella.COLPITA) {
-                        stk.setStyle("-fx-background-color: red");
-                        Nave affondata = partita.getUtlimaNaveAffondata();
-                        if (affondata != null && affondata.affondato()) {
-                            coloraNaveAffondata(affondata);
-                            partita.setUtlimaNaveAffondata(null); //reset
-                        }
-                    } else if (partita.getGrigliaAi().getStatoCella(row, col) == StatoCella.MANCATA) {
-                        stk.setStyle("-fx-background-color: blue");
+                    if (!partita.getGrigliaGiocatore().getGiocatore().isTurno()) {
+                        return;
                     }
-                    //se la nave in gestione è affondata coloro tutte le celle
-                    gestioneVisibilitaTurno();
+
+                    if (partita.getGrigliaAi().getStatoCella(riga, colonna) == StatoCella.COLPITA ||
+                            partita.getGrigliaAi().getStatoCella(riga, colonna) == StatoCella.MANCATA) {
+                        return;
+                    }
+
+                    partita.gestioneTurnoGiocatore(riga, colonna);
+                    aggiornaGrigliaAiDopoGiocatore(riga, colonna, stk);
+
+                    if (partita.getGrigliaAi().getStatoCella(riga, colonna) == StatoCella.MANCATA) {
+                        Platform.runLater(this::turnoAiCompleto);
+                    }
                 });
             }
         }
     }
 
-    private void coloraNaveAffondata(Nave n) {
+    /**
+     * Gestisce il turno completo dell'AI (continua se colpisce)
+     */
+    private void turnoAiCompleto() {
+        boolean colpita = partita.gestioneTurnoAi();
+        aggiornaGrigliaGiocatoreDopoAi();
+
+        if (colpita && partita.getGrigliaAi().getIa().isTurno()) {
+            Platform.runLater(() -> {
+                try {
+                    Thread.sleep(800);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                turnoAiCompleto();
+            });
+        }
+    }
+
+    private void aggiornaGrigliaAiDopoGiocatore(int riga, int colonna, StackPane stk) {
+        if (partita.getGrigliaAi().getStatoCella(riga, colonna) == StatoCella.COLPITA) {
+            stk.setStyle("-fx-background-color: red");
+            Nave affondata = partita.getUltimaNaveAffondataAi();
+            if (affondata != null && affondata.affondato()) {
+                coloraNaveAffondataAi(affondata);
+                partita.setUltimaNaveAffondataAi(null);
+            }
+        } else if (partita.getGrigliaAi().getStatoCella(riga, colonna) == StatoCella.MANCATA) {
+            stk.setStyle("-fx-background-color: blue");
+        }
+    }
+
+    private void aggiornaGrigliaGiocatoreDopoAi() {
+        for (int i = 1; i < partita.getDimensione(); i++) {
+            for (int j = 1; j < partita.getDimensione(); j++) {
+                StatoCella stato = partita.getGrigliaGiocatore().getStatoCella(i, j);
+                if (cellaGiocatore[i][j] != null) {
+                    if (stato == StatoCella.COLPITA) {
+                        cellaGiocatore[i][j].setStyle("-fx-background-color: red");
+                        Nave affondata = partita.getUtlimaNaveAffondataGiocatore();
+                        if (affondata != null && affondata.affondato()) {
+                            coloraNaveAffondataGiocatore(affondata);
+                            partita.setUtlimaNaveAffondataGiocatore(null);
+                        }
+                    } else if (stato == StatoCella.MANCATA) {
+                        cellaGiocatore[i][j].setStyle("-fx-background-color: blue");
+                    }
+                }
+            }
+        }
+    }
+
+    private void coloraNaveAffondataAi(Nave n) {
         for (int i = 0; i < n.getLunghezza(); i++) {
             int r, c;
             if (n.isVerticale()) {
@@ -131,31 +170,23 @@ public class GameController {
         }
     }
 
-    public void gestioneVisibilitaTurno(){
-        boolean turnoGiocatore = partita.getGrigliaGiocatore().getGiocatore().isTurno();
-
-        for (int i = 1; i < partita.getDimensione(); i++) {
-            for (int j = 1; j < partita.getDimensione(); j++) {
-                if (celleAi[i][j] != null){
-                    StatoCella statoCella = partita.getGrigliaGiocatore().getStatoCella(i,j);
-                    if (statoCella == StatoCella.NAVE){
-                        if (turnoGiocatore){
-                            celleAi[i][j].setStyle("-fx-background-color: transparent");
-                        }else {
-                            celleAi[i][j].setStyle("-fx-background-color: gray");
-                        }
-                    }
-                }
+    private void coloraNaveAffondataGiocatore(Nave n) {
+        for (int i = 0; i < n.getLunghezza(); i++) {
+            int r, c;
+            if (n.isVerticale()) {
+                r = n.getRigaNave() + i;
+                c = n.getColonnaNave();
+            } else {
+                r = n.getRigaNave();
+                c = n.getColonnaNave() + i;
+            }
+            if (cellaGiocatore[r][c] != null) {
+                cellaGiocatore[r][c].setStyle("-fx-background-color: black");
             }
         }
     }
 
-    //TODO  controllare bug sulla gestione del click della nave  perche da problemi su quando colpisco e  quando no
-    //gestire grafica
-    //todo gestione  logica inverti  tturno  se  colpita senno sttreak di turno giocator e o viceversa
-
     private void inizializzaGrigliaAi() {
         partita.mostraGrigliaAi();
     }
-
 }
