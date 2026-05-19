@@ -98,7 +98,6 @@ public class Partita {
 
     /**
      * Gestisce il turno dell'AI
-     * Ritorna true se l'AI ha colpito, false se ha mancato
      */
     public void gestioneTurnoAi() {
         //TODO

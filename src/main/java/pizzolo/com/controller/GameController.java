@@ -134,6 +134,27 @@ public class GameController {
                 }
             }
         }
+        Nave affondata = partita.getUtlimaNaveAffondata();
+        if (affondata != null && affondata.affondato()) {
+            coloraNaveAffondataGiocatore(affondata);
+            partita.setUtlimaNaveAffondata(null);
+        }
+    }
+
+    private void coloraNaveAffondataGiocatore(Nave n) {
+        for (int i = 0; i < n.getLunghezza(); i++) {
+            int r, c;
+            if (n.isVerticale()) {
+                r = n.getRigaNave() + i;
+                c = n.getColonnaNave();
+            } else {
+                r = n.getRigaNave();
+                c = n.getColonnaNave() + i;
+            }
+            if (cellaGiocatore[r][c] != null) {
+                cellaGiocatore[r][c].setStyle("-fx-background-color: black");
+            }
+        }
     }
 
     private void coloraNaveAffondata(Nave n) {

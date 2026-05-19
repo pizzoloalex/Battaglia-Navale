@@ -50,14 +50,14 @@ public class Nave {
 
     public boolean colpito(int riga, int colonna) {
         if (isVerticale) {
-            if (colonna == colonnaNave && riga >= colonna && riga <= riga + lunghezza - 1) {
+            if (colonna == colonnaNave && riga >= rigaNave  && riga <= rigaNave + lunghezza - 1) {
                 contaColpi++;
                 return colpito = true;
-            } else {
-                if (colonna == colonnaNave && riga >= rigaNave && riga <= rigaNave + lunghezza - 1) {
-                    contaColpi++;
-                    return colpito = true;
-                }
+            }
+        } else {
+            if (riga == rigaNave && colonna >= colonnaNave && colonna <= colonnaNave + lunghezza - 1) {
+                contaColpi++;
+                return colpito = true;
             }
         }
         return colpito = false;
