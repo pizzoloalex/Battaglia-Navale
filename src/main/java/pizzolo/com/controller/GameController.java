@@ -1,10 +1,12 @@
 package pizzolo.com.controller;
 
+import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 import pizzolo.com.model.Nave;
 import pizzolo.com.model.Partita;
 import pizzolo.com.model.StatoCella;
@@ -100,7 +102,7 @@ public class GameController {
 //                    }
                     aggiornaGrigliaAi(riga, colonna, stk);
                     if (partita.getGrigliaAi().getIa().isTurno()) {
-                        partita.gestioneTurnoAi();
+                        eseguiAiRitardo();
                         aggiornaGrigliaGiocatore();
                     }
 
@@ -170,6 +172,16 @@ public class GameController {
             if (celleAi[r][c] != null) {
                 celleAi[r][c].setStyle("-fx-background-color: black");
             }
+        }
+    }
+
+    public void  eseguiAiRitardo(){
+        boolean haColpito = partita.gestioneTurnoAi();
+        aggiornaGrigliaGiocatore();
+        if (haColpito){
+            PauseTransition pausa = new PauseTransition(Duration.seconds(1.5));
+            pausa.setOnFinished(actionEvent -> eseguiAiRitardo());
+            pausa.play();
         }
     }
 

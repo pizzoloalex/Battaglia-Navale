@@ -99,8 +99,8 @@ public class Partita {
     /**
      * Gestisce il turno dell'AI
      */
-    public void gestioneTurnoAi() {
-        //TODO
+    public boolean gestioneTurnoAi() {
+
         while (grigliaAi.getIa().isTurno()) {
             int[] posizione = gestioneColpoCellaAi();
             int riga = posizione[0];
@@ -119,15 +119,17 @@ public class Partita {
                     }
                 }
                 if (colpita) {
-                    continue;
+                    return true;
                 } else {
                     grigliaGiocatore.getStatoCella()[riga][colonna] = StatoCella.MANCATA;
                     grigliaGiocatore.getGiocatore().setTurno(true);
                     grigliaAi.getIa().setTurno(false);
                     System.out.println("Turno cambiato , tocca  al  giocatore");
+                    break;
                 }
             }
         }
+        return false;
     }
 
     /**
