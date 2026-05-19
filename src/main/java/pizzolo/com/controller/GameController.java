@@ -61,6 +61,7 @@ public class GameController {
         }
     }
 
+
     private void inizializzaGrigliaGiocatore() {
         partita.mostraGrigliaIniziale();
         partita.mostraGrigliaConNavi();
