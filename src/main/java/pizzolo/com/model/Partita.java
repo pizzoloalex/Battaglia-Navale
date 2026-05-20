@@ -2,20 +2,24 @@ package pizzolo.com.model;
 
 import java.util.Random;
 
-/**
- * classe che gestisce tutta la partita
- */
 public class Partita {
 
     private Griglia grigliaGiocatore;
     private Griglia grigliaAi;
-    private boolean turno; //true = turno del giocatore ---- false = turno ai
+    private boolean turno;
     private boolean iaBoolean;
-    private Nave ultimaNaveAffondata;
+    private Nave ultimaNaveAffondataAi;        // nave AI affondata dal giocatore
+    private Nave ultimaNaveAffondataGiocatore; // nave giocatore affondata dall'AI
 
     public Partita() {
         grigliaAi = new Griglia();
         grigliaGiocatore = new Griglia();
+
+        // Crea le navi disponibili per il giocatore
+        grigliaGiocatore.creaNaviGiocatoreDisponibili();
+
+        // Crea le navi dell'AI in posizioni casuali
+        grigliaAi.creaNaviAiCasuali();
     }
 
     public int getDimensione() {
@@ -30,12 +34,22 @@ public class Partita {
         return grigliaAi;
     }
 
-    public Nave getUtlimaNaveAffondata() {
-        return ultimaNaveAffondata;
+    // --- getter/setter separati per le due navi affondate ---
+
+    public Nave getUltimaNaveAffondataAi() {
+        return ultimaNaveAffondataAi;
     }
 
-    public void setUtlimaNaveAffondata(Nave nave) {
-        this.ultimaNaveAffondata = nave;
+    public void setUltimaNaveAffondataAi(Nave nave) {
+        this.ultimaNaveAffondataAi = nave;
+    }
+
+    public Nave getUtlimaNaveAffondataGiocatore() {
+        return ultimaNaveAffondataGiocatore;
+    }
+
+    public void setUtlimaNaveAffondataGiocatore(Nave nave) {
+        this.ultimaNaveAffondataGiocatore = nave;
     }
 
     public boolean isIaBoolean() {
@@ -52,14 +66,12 @@ public class Partita {
     }
 
     public void mostraGrigliaConNavi() {
-        grigliaGiocatore.posizionaNaviGiocatore();
-        System.out.println("GRIGLIA CON NAVI");
+        System.out.println("GRIGLIA CON NAVI GIOCATORE");
         System.out.println(grigliaGiocatore.toString());
     }
 
     public void mostraGrigliaAi() {
         System.out.println("GESTIONE GRIGLIA AI");
-        grigliaAi.posizionaNavi();
         System.out.println(grigliaAi.toString());
     }
 
@@ -68,12 +80,10 @@ public class Partita {
         grigliaGiocatore.getGiocatore().setTurno(turno);
     }
 
-    /**
-     * Gestisce l'attacco del giocatore sulla griglia dell'AI
-     */
     public void gestioneTurnoGiocatore(int riga, int colonna) {
         if (grigliaGiocatore.getGiocatore().isTurno()) {
-            if (grigliaAi.getStatoCella(riga, colonna) != StatoCella.COLPITA && grigliaAi.getStatoCella(riga, colonna) != StatoCella.MANCATA) {
+            if (grigliaAi.getStatoCella(riga, colonna) != StatoCella.COLPITA &&
+                    grigliaAi.getStatoCella(riga, colonna) != StatoCella.MANCATA) {
                 boolean colpita = false;
                 for (Nave n : grigliaAi.getIa().getNavi()) {
                     if (n.colpito(riga, colonna)) {
@@ -81,8 +91,8 @@ public class Partita {
                         grigliaAi.getStatoCella()[riga][colonna] = StatoCella.COLPITA;
                         System.out.println("Giocatore colpisce riga " + riga + " e colonna " + colonna);
                         if (n.affondato()) {
-                            ultimaNaveAffondata = n;
-                            System.out.println("Giocattore affonda  nave");
+                            ultimaNaveAffondataAi = n; // nave dell'AI affondata
+                            System.out.println("Giocatore affonda nave AI");
                         }
                     }
                 }
@@ -90,22 +100,19 @@ public class Partita {
                     grigliaAi.getStatoCella()[riga][colonna] = StatoCella.MANCATA;
                     grigliaGiocatore.getGiocatore().setTurno(false);
                     grigliaAi.getIa().setTurno(true);
-                    System.out.println("Turno cambiato,  tocca  AI");
+                    System.out.println("Turno cambiato, tocca AI");
                 }
             }
         }
     }
 
-    /**
-     * Gestisce il turno dell'AI
-     */
     public boolean gestioneTurnoAi() {
-
         while (grigliaAi.getIa().isTurno()) {
             int[] posizione = gestioneColpoCellaAi();
             int riga = posizione[0];
             int colonna = posizione[1];
-            if (grigliaGiocatore.getStatoCella(riga, colonna) != StatoCella.COLPITA && grigliaGiocatore.getStatoCella(riga, colonna) != StatoCella.MANCATA) {
+            if (grigliaGiocatore.getStatoCella(riga, colonna) != StatoCella.COLPITA &&
+                    grigliaGiocatore.getStatoCella(riga, colonna) != StatoCella.MANCATA) {
                 boolean colpita = false;
                 for (Nave n : grigliaGiocatore.getGiocatore().getNavi()) {
                     if (n.colpito(riga, colonna)) {
@@ -113,8 +120,8 @@ public class Partita {
                         grigliaGiocatore.getStatoCella()[riga][colonna] = StatoCella.COLPITA;
                         System.out.println("AI colpisce riga " + riga + " e colonna " + colonna);
                         if (n.affondato()) {
-                            ultimaNaveAffondata = n;
-                            System.out.println("AI affonda  nave");
+                            ultimaNaveAffondataGiocatore = n; // nave del giocatore affondata
+                            System.out.println("AI affonda nave giocatore");
                         }
                     }
                 }
@@ -124,7 +131,7 @@ public class Partita {
                     grigliaGiocatore.getStatoCella()[riga][colonna] = StatoCella.MANCATA;
                     grigliaGiocatore.getGiocatore().setTurno(true);
                     grigliaAi.getIa().setTurno(false);
-                    System.out.println("Turno cambiato , tocca  al  giocatore");
+                    System.out.println("Turno cambiato, tocca al giocatore");
                     break;
                 }
             }
@@ -132,9 +139,6 @@ public class Partita {
         return false;
     }
 
-    /**
-     * Genera coordinate casuali per l'attacco dell'AI
-     */
     private int[] gestioneColpoCellaAi() {
         Random rnd = new Random();
         int[] posizione = new int[2];

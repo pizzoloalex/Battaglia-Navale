@@ -8,18 +8,6 @@ public class Griglia {
     private Giocatore giocatore;
     private Giocatore ia;
 
-    public Giocatore getGiocatore() {
-        return giocatore;
-    }
-
-    public Giocatore getIa() {
-        return ia;
-    }
-
-    public int getDIMENSIONE() {
-        return DIMENSIONE;
-    }
-
     public Griglia() {
         giocatore = new Giocatore();
         ia = new Giocatore();
@@ -27,30 +15,17 @@ public class Griglia {
         setCelleIniziali();
     }
 
-    public void posizionaNaviGiocatore() {
-        setNaviGiocatore();
+    public int getDIMENSIONE() {
+        return DIMENSIONE;
     }
 
-    public void posizionaNavi() {
-        setNaveAi();
-//        System.out.println("Navi AI:  " + ia.toString());
+    public Giocatore getGiocatore() {
+        return giocatore;
     }
 
-//    public String toStringAi(){
-//        return ia.getNavi().toString();
-//    }
-
-    /**
-     * inizializza le celle della griglia a vuote, nessuna nave
-     */
-    public void setCelleIniziali() {
-        for (int i = 0; i < DIMENSIONE; i++) {
-            for (int j = 0; j < DIMENSIONE; j++) {
-                statoCella[i][j] = StatoCella.VUOTA;
-            }
-        }
+    public Giocatore getIa() {
+        return ia;
     }
-
 
     public StatoCella[][] getStatoCella() {
         return statoCella;
@@ -60,101 +35,167 @@ public class Griglia {
         return statoCella[riga][colonna];
     }
 
+    // ======================== SETUP CELLE ========================
+
+    public void setCelleIniziali() {
+        for (int i = 0; i < DIMENSIONE; i++) {
+            for (int j = 0; j < DIMENSIONE; j++) {
+                statoCella[i][j] = StatoCella.VUOTA;
+            }
+        }
+    }
+
+    // ======================== NAVI GIOCATORE ========================
+
     /**
-     * toString per il debug della tabella
-     *
-     * @return
+     * Crea tutte le navi del giocatore fuori dalla griglia (in posizioni neutrali)
      */
+    public void creaNaviGiocatoreDisponibili() {
+        // PORTAEREI (5)
+        Nave portaerei = new Nave(TipoNave.PORTAEREI, 0, 0, true);
+        giocatore.getNavi().add(portaerei);
+
+        // CACCIATORPENDIERE (4)
+        Nave cacciatorpendiere = new Nave(TipoNave.CACCIATORPENDIERE, 0, 0, true);
+        giocatore.getNavi().add(cacciatorpendiere);
+
+        // INCROCIATORI (3)
+        Nave incrociatori = new Nave(TipoNave.INCROCIATORI, 0, 0, true);
+        giocatore.getNavi().add(incrociatori);
+
+        // SOTTOMARINO (2)
+        Nave sottomarino = new Nave(TipoNave.SOTTOMARINO, 0, 0, true);
+        giocatore.getNavi().add(sottomarino);
+    }
+
+    /**
+     * Controlla se una posizione è valida per una nave
+     */
+    public boolean posizionamentoValido(Nave nave) {
+        for (int[] cella : nave.getCelle()) {
+            int r = cella[0], c = cella[1];
+            // Controlla se esce dai bordi della griglia (spazio 1-9)
+            if (r < 1 || r >= DIMENSIONE || c < 1 || c >= DIMENSIONE) {
+                return false;
+            }
+            // Controlla sovrapposizioni con altre navi
+            for (Nave altra : giocatore.getNavi()) {
+                if (altra == nave) continue;
+                for (int[] altraCella : altra.getCelle()) {
+                    if (altraCella[0] == r && altraCella[1] == c) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Aggiorna la matrice statoCella dopo uno spostamento di nave
+     */
+    public void aggiornaStatoCelleNave() {
+        // Pulisci le celle delle navi
+        for (int r = 1; r < DIMENSIONE; r++) {
+            for (int c = 1; c < DIMENSIONE; c++) {
+                if (statoCella[r][c] == StatoCella.NAVE) {
+                    statoCella[r][c] = StatoCella.VUOTA;
+                }
+            }
+        }
+        // Ridisegna tutte le navi
+        for (Nave n : giocatore.getNavi()) {
+            for (int[] cella : n.getCelle()) {
+                int r = cella[0], c = cella[1];
+                if (r >= 1 && r < DIMENSIONE && c >= 1 && c < DIMENSIONE) {
+                    statoCella[r][c] = StatoCella.NAVE;
+                }
+            }
+        }
+    }
+
+    // ======================== NAVI AI ========================
+
+    /**
+     * Genera tutte le navi dell'AI in posizioni casuali
+     */
+    public void creaNaviAiCasuali() {
+        TipoNave[] tipi = {TipoNave.PORTAEREI, TipoNave.CACCIATORPENDIERE, TipoNave.INCROCIATORI, TipoNave.SOTTOMARINO};
+
+        for (TipoNave tipo : tipi) {
+            Nave nave = new Nave(tipo);
+            boolean orientamentoValido = false;
+
+            // Tenta finché non trova una posizione valida
+            while (!orientamentoValido) {
+                Random rnd = new Random();
+                boolean verticale = rnd.nextBoolean();
+                int riga = generaPosizioneCasuale(verticale, nave.getLunghezza());
+                int colonna = generaPosizioneCasuale(!verticale, nave.getLunghezza());
+
+                nave.sposta(riga, colonna, verticale);
+                orientamentoValido = posizionamentoAiValido(nave);
+            }
+
+            ia.getNavi().add(nave);
+            aggiornaStatoCelleAi(nave);
+        }
+    }
+
+    /**
+     * Controlla se la posizione è valida per una nave dell'AI
+     */
+    private boolean posizionamentoAiValido(Nave nave) {
+        for (int[] cella : nave.getCelle()) {
+            int r = cella[0], c = cella[1];
+            if (r < 1 || r >= DIMENSIONE || c < 1 || c >= DIMENSIONE) {
+                return false;
+            }
+            for (Nave altra : ia.getNavi()) {
+                if (altra == nave) continue;
+                for (int[] altraCella : altra.getCelle()) {
+                    if (altraCella[0] == r && altraCella[1] == c) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Genera una posizione casuale tenendo conto della lunghezza
+     */
+    private int generaPosizioneCasuale(boolean consideraLunghezza, int lunghezza) {
+        Random rnd = new Random();
+        if (consideraLunghezza) {
+            return 1 + rnd.nextInt(DIMENSIONE - lunghezza);
+        } else {
+            return 1 + rnd.nextInt(DIMENSIONE - 1);
+        }
+    }
+
+    /**
+     * Aggiorna la matrice statoCella per le navi dell'AI
+     */
+    private void aggiornaStatoCelleAi(Nave nave) {
+        for (int[] cella : nave.getCelle()) {
+            int r = cella[0], c = cella[1];
+            if (r >= 1 && r < DIMENSIONE && c >= 1 && c < DIMENSIONE) {
+                statoCella[r][c] = StatoCella.NAVE;
+            }
+        }
+    }
+
     @Override
     public String toString() {
         String s = "";
         for (int i = 0; i < DIMENSIONE; i++) {
             for (int j = 0; j < DIMENSIONE; j++) {
-                if (statoCella[i][j] == StatoCella.VUOTA) {
-                    s += "0 ";
-                } else {
-                    s += "1 ";
-                }
+                s += statoCella[i][j] == StatoCella.VUOTA ? "0 " : "1 ";
             }
             s += "\n";
         }
         return s;
     }
-
-    /**
-     * metodo che aggiunge la nave alla griglia
-     */
-    public void setNaviGiocatore() {
-        Nave nave = new Nave(TipoNave.PORTAEREI, 3, 5, true);
-        giocatore.getNavi().add(nave);
-        posizionaNave(nave);
-    }
-
-    /**
-     * metodo che posiziona la nave e la posiziona in base al suo orientamento
-     *
-     * @param nave nave da aggiungere
-     */
-    private void posizionaNave(Nave nave) {
-        for (int i = 0; i < nave.getLunghezza(); i++) {
-            if (nave.isVerticale()) {
-                statoCella[nave.getRigaNave() + i][nave.getColonnaNave()] = StatoCella.NAVE;
-            } else {
-                statoCella[nave.getRigaNave()][nave.getColonnaNave() + i] = StatoCella.NAVE;
-            }
-        }
-    }
-
-    public void setNaveAi() {
-        Nave naveAi = new Nave(TipoNave.INCROCIATORI);
-        naveAi.setVerticale(setOrientamentoNaveAi(naveAi));
-
-        int[] posizione = setPosizionamentoRigaColonnaNaveAi(naveAi); // chiami UNA sola volta
-        naveAi.setRigaNave(posizione[0]);
-        naveAi.setColonnaNave(posizione[1]);
-
-        System.out.println("orientamento nave: " + naveAi.isVerticale());
-        System.out.println("Riga nave ai:" + naveAi.getRigaNave() + " Colonna nave ai:" + naveAi.getColonnaNave());
-        ia.getNavi().add(naveAi);
-        posizionaNaveAi(naveAi);
-    }
-
-    private void posizionaNaveAi(Nave nave) {
-        for (int i = 0; i < nave.getLunghezza(); i++) {
-            if (nave.isVerticale()) {
-                statoCella[nave.getRigaNave() + i][nave.getColonnaNave()] = StatoCella.NAVE;
-            } else {
-                statoCella[nave.getRigaNave()][nave.getColonnaNave() + i] = StatoCella.NAVE;
-            }
-        }
-    }
-
-    private int[] setPosizionamentoRigaColonnaNaveAi(Nave nave) {
-        Random rnd = new Random();
-        int[] posizione = new int[2];
-
-        if (nave.isVerticale()) {
-            // riga: parte da 1, e deve avere spazio per tutta la lunghezza senza uscire dalla griglia
-            posizione[0] = 1 + rnd.nextInt(DIMENSIONE - nave.getLunghezza() - 1); // es: 1...(10-lunghezza-1)
-            // colonna: parte da 1
-            posizione[1] = 1 + rnd.nextInt(DIMENSIONE - 1); // es: 1...9
-        } else {
-            // riga: parte da 1
-            posizione[0] = 1 + rnd.nextInt(DIMENSIONE - 1); // es: 1...9
-            // colonna: parte da 1, e deve avere spazio per tutta la lunghezza
-            posizione[1] = 1 + rnd.nextInt(DIMENSIONE - nave.getLunghezza() - 1); // es: 1...(10-lunghezza-1)
-        }
-
-        return posizione;
-    }
-
-    private boolean setOrientamentoNaveAi(Nave nave) {
-        //TODO finire
-        //Metodo: per ogni nave presente nell'array genero un nuovo valore
-        Random rnd = new Random();
-        nave.setVerticale(rnd.nextBoolean());
-        return nave.isVerticale();
-    }
-
-
 }
